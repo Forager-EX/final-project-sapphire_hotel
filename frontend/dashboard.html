@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f1f4f9;
+        color: #333;
+      }
+
+      .dashboard {
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .header h2 {
+        margin: 0;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .card .label {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .card .value {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .charts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .chart-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      canvas {
+        width: 100% !important;
+        height: 250px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <div class="header">
+        <h2>Sapphire Hotel Dashboard</h2>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="label">TRevPAR</div>
+          <div class="value">24.6k</div>
+        </div>
+        <div class="card">
+          <div class="label">Occupancy Rate</div>
+          <div class="value">81.1%</div>
+        </div>
+        <div class="card">
+          <div class="label">Avg Length of Stay</div>
+          <div class="value">3.5</div>
+        </div>
+        <div class="card">
+          <div class="label">GOPPAR</div>
+          <div class="value">18.9k</div>
+        </div>
+        <div class="card">
+          <div class="label">Booking Lead Time</div>
+          <div class="value">32</div>
+        </div>
+        <div class="card">
+          <div class="label">Cancellation Rate</div>
+          <div class="value">5.9%</div>
+        </div>
+      </div>
+
+      <div class="charts">
+        <div class="chart-container">
+          <canvas id="occupancyChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="trevparChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="bookingsPieChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Line Chart - Occupancy Rate
+      new Chart(document.getElementById("occupancyChart").getContext("2d"), {
+        type: "line",
+        data: {
+          labels: Array.from({ length: 15 }, (_, i) => i + 1),
+          datasets: [
+            {
+              label: "Occupancy A",
+              data: [
+                2000, 2200, 2400, 2100, 2800, 2500, 2300, 3000, 2900, 3100,
+                3200, 3400, 3600, 3300, 3100,
+              ],
+              fill: true,
+              backgroundColor: "rgba(54, 162, 235, 0.2)",
+              borderColor: "#36A2EB",
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+          },
+        },
+      });
+
+      // Bar Chart - TRevPAR
+      new Chart(document.getElementById("trevparChart").getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: ["1", "2", "3", "4", "5", "6", "7", "8"],
+          datasets: [
+            {
+              label: "TRevPAR",
+              data: [4, 5.8, 3.9, 4.5, 2.8, 3.1, 4.4, 5.9],
+              backgroundColor: "#4CAF50",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            datalabels: {
+              display: true,
+              color: "#fff",
+              font: { weight: "bold" },
+              formatter: (value) => value.toFixed(1),
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "TRevPAR Value",
+                font: { weight: "bold", size: 14 },
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Week",
+                font: { weight: "bold", size: 14 },
+              },
+            },
+          },
+        },
+        plugins: [ChartDataLabels],
+      });
+
+      // Pie Chart - Bookings by Country
+      new Chart(document.getElementById("bookingsPieChart").getContext("2d"), {
+        type: "pie",
+        data: {
+          labels: [
+            "Local and International Guest",
+            "Business Travelers",
+            "Leisure Travelers",
+          ],
+          datasets: [
+            {
+              data: [45, 25, 30],
+              backgroundColor: ["#FF6384", "#FFCE56", "#4BC0C0"],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: "bottom" },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

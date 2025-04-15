@@ -1,0 +1,156 @@
+/* Rooms Section */
+.rooms-section {
+  padding: 80px 0;
+  background-color: #f5f9fc;
+}
+
+/* You can move this to rooms.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Playfair Display", serif;
+}
+
+body {
+  background-color: #f5f9fc;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #0d47a1;
+  margin-bottom: 15px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 50px;
+}
+
+/* Card Container */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+/* Card Styles */
+.card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content h3 {
+  font-size: 1.5rem;
+  color: #0d47a1;
+  margin-bottom: 10px;
+}
+
+.card-content p {
+  color: #666;
+  margin: 10px 0 20px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+/* Amenities List */
+.amenities-list {
+  margin-bottom: 20px; /* Add space between amenities and button */
+}
+
+.amenities-list li {
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+
+.amenities-list i {
+  margin-right: 5px;
+}
+
+/* Book Now Button */
+.book-now-button {
+  margin-top: 20px; /* Add space above the button */
+  display: inline-block;
+  background-color: #1e88e5;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.book-now-button:hover {
+  background-color: #0d47a1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+
+  .card-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rooms-section {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+}

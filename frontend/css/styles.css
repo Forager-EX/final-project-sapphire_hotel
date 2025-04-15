@@ -1,0 +1,272 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Playfair Display", serif;
+}
+
+/* Body Styling */
+body {
+  background-color: #f5f9fc; /* Light blue-gray background */
+  color: #333;
+}
+
+/* Navbar Styling */
+.navbar {
+  background: #58aaf1; /* Deep sapphire blue */
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+#navbar__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar__logo-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navbar__menu {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.navbar__menu .navbar__links {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar__menu .navbar__links:hover {
+  color: #5775fa; /* Light blue hover */
+}
+
+.navbar__btn .button {
+  background-color: #1e88e5; /* Bright sapphire blue */
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.navbar__btn .button:hover {
+  background-color: #0d47a1; /* Darker sapphire blue */
+}
+
+.navbar__toggle {
+  display: none;
+  cursor: pointer;
+}
+
+.navbar__toggle .bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Hero Section */
+.main {
+  position: relative;
+  background-image: url("/frontend/img/hotel.jpg"); /* Background image */
+  background-size: cover; /* Cover the entire section */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent repeating */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for readability */
+}
+
+.main__container {
+  position: relative;
+  z-index: 1;
+}
+
+.main__content h1 {
+  font-size: 4rem;
+  color: #bbdefb; /* Light blue text */
+  margin-bottom: 20px;
+}
+
+.main__content h3 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.main__content .main_btn {
+  background-color: #bcd2e6; /* Bright sapphire blue */
+  color: #0d47a1;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.main_btn a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the button's text color */
+  display: inline-block;
+}
+.main__content .main_btn:hover {
+  background-color: #8b7ff7; /* Darker sapphire blue */
+}
+
+/* About Section */
+.about {
+  padding: 50px 0; /* Add vertical padding */
+  text-align: center; /* Center-align all text */
+}
+
+.about .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+}
+
+.about .about-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px; /* Optional: Rounded corners for the image */
+  margin: 0 auto; /* Center the image */
+}
+
+.light-background {
+  background-color: #f5f9fc; /* Light blue-gray background */
+}
+
+.about h2 {
+  font-size: 2.5rem;
+  color: #0d47a1; /* Deep sapphire blue */
+  margin-bottom: 20px;
+  font-family: "Playfair Display", serif;
+}
+
+.about p {
+  margin: 30px 90px; /* 10px top/bottom margin, 20px left/right margin */
+  line-height: 1.6; /* Improve readability */
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: "Open Sans", sans-serif;
+}
+
+/* Footer Styling */
+.footer {
+  background-color: #5775fa; /* Deep sapphire blue */
+  color: #fff; /* White text */
+  padding: 20px 0; /* Add vertical padding */
+}
+
+.footer p {
+  font-size: 1rem;
+  margin-bottom: 20px; /* Add spacing between text and icons */
+  text-align: center; /* Center the copyright text */
+}
+
+.footer .social-links {
+  display: flex;
+  justify-content: center; /* Center the icons horizontally */
+  gap: 20px; /* Add spacing between icons */
+}
+
+.footer .social-links a {
+  display: inline-block;
+}
+
+.footer .social-links img {
+  width: 30px; /* Set a consistent size for icons */
+  height: 30px;
+  transition: transform 0.3s ease; /* Add hover effect */
+}
+
+.footer .social-links img:hover {
+  transform: scale(1.2); /* Slightly enlarge the icon on hover */
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 960px) {
+  .navbar__menu {
+    display: none; /* Hide desktop menu on mobile */
+  }
+
+  .navbar__toggle {
+    display: block;
+  }
+
+  .navbar__toggle.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .navbar__toggle.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .navbar__toggle.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .navbar__menu.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: #58aaf1; /* Deep sapphire blue */
+    z-index: 99;
+    padding: 20px;
+  }
+
+  .navbar__menu.active .navbar__links {
+    color: #fff;
+    padding: 10px 0;
+  }
+}

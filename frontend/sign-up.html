@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Sapphire Hotel</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/sign-up.css" />
+  </head>
+  <body>
+    <!-- Navbar Section -->
+    <nav class="navbar">
+      <div class="navbar__container">
+        <a href="index.html" id="navbar__logo">
+          <img
+            src="img/sh icon.png"
+            alt="Sapphire Hotel Logo"
+            class="navbar__logo-img"
+          />
+          Sapphire Hotel
+        </a>
+        <div class="navbar__toggle" id="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <ul class="navbar__menu">
+          <li class="navbar__item">
+            <a href="index.html" class="navbar__links">Home</a>
+          </li>
+          <li class="navbar__item">
+            <a href="services.html" class="navbar__links">Services</a>
+          </li>
+          <li class="navbar__item">
+            <a href="rooms.html" class="navbar__links">Rooms</a>
+          </li>
+          <li class="navbar__item">
+            <a href="contact.html" class="navbar__links">Contact</a>
+          </li>
+          <li class="navbar__item">
+            <a href="profile.html" class="navbar__links">Profile</a>
+          </li>
+          <li class="navbar__btn">
+            <a href="login.html" class="button">Login/Sign-up</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="signup-container">
+      <div class="logo-wrapper">
+        <img
+          src="img/sh icon.png"
+          alt="Sapphire Hotel Logo"
+          class="signup-logo"
+        />
+      </div>
+      <form id="registerSection" class="form-section">
+        <h2>Create Profile</h2>
+        <label>Full Name:</label><br />
+        <input
+          type="text"
+          id="regFullName"
+          placeholder="Full Name"
+          required
+        /><br />
+        <label>Email:</label><br />
+        <input
+          type="email"
+          id="regEmail"
+          placeholder="Email Address"
+          required
+        /><br />
+        <label>Username:</label><br />
+        <input
+          type="text"
+          id="regUsername"
+          placeholder="Username"
+          required
+        /><br />
+        <label>Password:</label><br />
+        <input
+          type="password"
+          id="regPassword"
+          placeholder="Password"
+          required
+        /><br />
+        <label>Confirm Password:</label><br />
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirm Password"
+          required
+        /><br />
+        <button onclick="register()">Register</button>
+      </form>
+      <div class="footer-link">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2023 Sapphire Hotel. All rights reserved.</p>
+        <div class="social-links">
+          <a href="#"><img src="img/facebook.png" alt="Facebook" /></a>
+          <a href="#"><img src="img/twitter.png" alt="Twitter" /></a>
+          <a href="#"><img src="img/instagram.png" alt="Instagram" /></a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      let userData = {};
+
+      function register() {
+        const username = document.getElementById("regUsername").value;
+        const password = document.getElementById("regPassword").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        const fullName = document.getElementById("regFullName").value;
+        const email = document.getElementById("regEmail").value;
+
+        if (
+          username &&
+          password &&
+          confirmPassword &&
+          fullName &&
+          email &&
+          password === confirmPassword
+        ) {
+          // Save to memory (not secure)
+          userData = { username, password, fullName, email };
+          alert("Profile created successfully!");
+          // Redirect to login page or another appropriate page
+          window.location.href = "/login.html";
+        } else if (password !== confirmPassword) {
+          alert("Passwords do not match.");
+        } else {
+          alert("Please fill in all fields.");
+        }
+      }
+    </script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

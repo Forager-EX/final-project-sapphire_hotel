@@ -1,0 +1,104 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Playfair Display", serif;
+}
+
+body {
+  background-color: #f5f9fc;
+  color: #333;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the body takes up full viewport height */
+}
+
+.main-content-wrapper {
+  flex: 1; /* Allow main content to take up remaining space */
+}
+
+/* Navbar styles (ensure this matches your existing navbar) */
+.navbar {
+  background: #58aaf1;
+  padding: 1rem;
+}
+
+/* Booking Section */
+.booking {
+  padding: 2rem 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.booking h2 {
+  color: #0d47a1;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Form styles */
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #0d47a1;
+  border-color: #0d47a1;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #1e88e5;
+  border-color: #1e88e5;
+}
+
+/* Footer styles */
+.footer {
+  background-color: #58aaf1;
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-top: auto; /* Pushes the footer to the bottom */
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-links img {
+  width: 30px;
+  height: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .booking {
+    padding: 1.5rem 0;
+  }
+
+  .booking h2 {
+    font-size: 1.75rem;
+  }
+}

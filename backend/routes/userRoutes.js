@@ -1,94 +1,81 @@
+// routes/userRoutes.js
 const express = require("express");
 const router = express.Router();
-const { runAsync, getAsync, allAsync } = require("../db/database");
+const pool = require("../db/database");
 
-// Create user
-router.post("/", async (req, res) => {
-  try {
-    const { name, email, password, role = "user" } = req.body;
-
-    const result = await runAsync(
-      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
-      [name, email, password, role]
-    );
-
-    const user = await getAsync("SELECT * FROM users WHERE id = ?", [
-      result.lastID,
-    ]);
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-// Get all users
+// @route   GET /api/users
+// @desc    Get all users
 router.get("/", async (req, res) => {
   try {
-    const users = await allAsync("SELECT * FROM users");
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const [rows] = await pool.query("SELECT * FROM user");
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Get single user
-router.get("/:id", async (req, res) => {
+// @route   POST /api/users
+// @desc    Register a new user
+router.post("/", async (req, res) => {
+  const { name, email, phone } = req.body;
+  if (!name || !email || !phone) {
+    return res.status(400).json({ error: "All fields are required." });
+  }
+
   try {
-    const user = await getAsync("SELECT * FROM users WHERE id = ?", [
-      req.params.id,
-    ]);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const [result] = await pool.query(
+      "INSERT INTO user (name, email, phone#, createdAt) VALUES (?, ?, ?, CURDATE())",
+      [name, email, phone]
+    );
+    res.status(201).json({ message: "User created", user_id: result.insertId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Update user
-router.put("/:id", async (req, res) => {
+// @route   PUT /api/users/:user_id
+// @desc    Update a user
+router.put("/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+  const { name, email, phone } = req.body;
+
+  if (!name || !email || !phone) {
+    return res.status(400).json({ error: "All fields are required." });
+  }
+
   try {
-    const { name, email, role } = req.body;
-
-    // First check if user exists
-    const user = await getAsync("SELECT * FROM users WHERE id = ?", [
-      req.params.id,
-    ]);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    await runAsync(
-      "UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?",
-      [name, email, role, req.params.id]
+    const [result] = await pool.query(
+      "UPDATE user SET name = ?, email = ?, phone# = ? WHERE user_id = ?",
+      [name, email, phone, user_id]
     );
 
-    const updatedUser = await getAsync("SELECT * FROM users WHERE id = ?", [
-      req.params.id,
-    ]);
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.json({ message: "User updated successfully." });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Delete user
-router.delete("/:id", async (req, res) => {
+// @route   DELETE /api/users/:user_id
+// @desc    Delete a user
+router.delete("/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+
   try {
-    const user = await getAsync("SELECT * FROM users WHERE id = ?", [
-      req.params.id,
+    const [result] = await pool.query("DELETE FROM user WHERE user_id = ?", [
+      user_id,
     ]);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "User not found." });
     }
 
-    await runAsync("DELETE FROM users WHERE id = ?", [req.params.id]);
-    res.json({ message: "User deleted" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.json({ message: "User deleted successfully." });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

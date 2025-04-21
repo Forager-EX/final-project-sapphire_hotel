@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "summaryRoomType"
     ).innerHTML = `<strong>Room Type:</strong> ${
       roomType.charAt(0).toUpperCase() + roomType.slice(1)
-    }`;
+    } - ${roomInfo.description}`;
     document.getElementById(
       "summaryGuests"
     ).innerHTML = `<strong>Number of Guests:</strong> ${numberOfGuests}`;
@@ -88,15 +88,72 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("numberOfGuests")
     .addEventListener("input", updateBookingSummary);
 
+  // Payment Overlay Elements
+  const paymentOverlay = document.getElementById("paymentOverlay");
+  const closeBtn = document.querySelector(".close-btn");
+  const paymentForm = document.getElementById("paymentForm");
+
   // Form submission handler
   document
     .getElementById("bookingForm")
     .addEventListener("submit", function (e) {
-      e.preventDefault(); // Prevent default form submission
+      e.preventDefault();
 
-      // Disable the button and show confirmation message
-      document.getElementById("confirmButton").textContent =
-        "Booking Confirmed!";
-      document.getElementById("confirmButton").disabled = true;
+      // Get booking details
+      const checkInDate = document.getElementById("checkInDate").value;
+      const checkOutDate = document.getElementById("checkOutDate").value;
+      const roomType = document.getElementById("roomType").value;
+      const numberOfGuests = document.getElementById("numberOfGuests").value;
+
+      // Validate all fields are filled
+      if (!checkInDate || !checkOutDate || !roomType || !numberOfGuests) {
+        alert("Please fill in all booking details");
+        return;
+      }
+
+      // Calculate total amount
+      const days = calculateDays(checkInDate, checkOutDate);
+      const totalCost = roomTypes[roomType].price * days;
+
+      // Show payment amount in overlay
+      document.getElementById(
+        "paymentAmount"
+      ).innerHTML = `Total Amount: $${totalCost.toFixed(2)}`;
+
+      // Show payment overlay
+      paymentOverlay.style.display = "flex";
     });
+
+  // Close overlay when X is clicked
+  closeBtn.addEventListener("click", function () {
+    paymentOverlay.style.display = "none";
+  });
+
+  // Close overlay when clicking outside the modal
+  paymentOverlay.addEventListener("click", function (e) {
+    if (e.target === paymentOverlay) {
+      paymentOverlay.style.display = "none";
+    }
+  });
+
+  // Payment form submission
+  paymentForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Here you would normally process the payment
+    // For demo purposes, we'll just show a success message
+
+    // Hide payment overlay
+    paymentOverlay.style.display = "none";
+
+    // Update booking button to show success
+    const confirmButton = document.getElementById("confirmButton");
+    confirmButton.textContent = "Booking Confirmed!";
+    confirmButton.disabled = true;
+    confirmButton.classList.remove("btn-primary");
+    confirmButton.classList.add("btn-success");
+
+    // You might want to redirect or show a more detailed confirmation
+    alert("Payment successful! Your booking has been confirmed.");
+  });
 });

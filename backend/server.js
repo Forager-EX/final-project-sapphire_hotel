@@ -1,24 +1,34 @@
+// backend/server.js
+require("dotenv").config();
+console.log("✅ ENV loaded:", process.env.DB_USER); // <== add this
+
 const express = require("express");
-const cors = require("cors");
+const pool = require("./db/database");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
-const PORT = 5001; // Try different port
-
-// Middleware
-app.use(cors());
 app.use(express.json());
 
-// Test route
+// Route for checking DB connection
+app.get("/test-db", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT 1 + 1 AS solution");
+    res.json({ database: "working", result: rows[0].solution });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Test root route
 app.get("/", (req, res) => {
-  res.send("API is working");
+  res.send("🏨 Hotel API Ready!");
 });
 
-app.post("/api/users", (req, res) => {
-  console.log(req.body);
-  res.json({ message: "User received", user: req.body });
-});
+// Mount user routes
+app.use("/api/users", userRoutes);
 
-// Start server
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

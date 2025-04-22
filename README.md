@@ -15,11 +15,11 @@ BSIT-2B
 
 👥 Members and Roles
 Name Role
-Maristela L. Yebra Project Leader / Documentation Officer
-John Paul Bon Back-End Developer
-Delia Portes Database Manager
-Trisha Besa Front-End Developer
-Andrew Fajardo GitHub Manager
+Maristela L. Yebra Project     Leader / Documentation Officer
+John Paul Bon                  Back-End Developer
+Delia Portes                   Database Manager
+Trisha Besa                    Front-End Developer
+Andrew Fajardo                 GitHub Manager
 
 📊 Project Progress
 Phase Description Completion

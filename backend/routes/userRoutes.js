@@ -17,15 +17,17 @@ router.get("/", async (req, res) => {
 // @route   POST /api/users
 // @desc    Register a new user
 router.post("/", async (req, res) => {
-  const { name, email, phone } = req.body;
+  const { name, email, phone, password } = req.body;
   if (!name || !email || !phone) {
-    return res.status(400).json({ error: "All fields are required." });
+    return res
+      .status(400)
+      .json({ error: "Name, email, and phone are required." });
   }
 
   try {
     const [result] = await pool.query(
-      "INSERT INTO user (name, email, phone#, createdAt) VALUES (?, ?, ?, CURDATE())",
-      [name, email, phone]
+      "INSERT INTO user (name, email, phone, password, createdAt) VALUES (?, ?, ?, ?, CURDATE())",
+      [name, email, phone, password || null] // Ensure password is set to NULL if not provided
     );
     res.status(201).json({ message: "User created", user_id: result.insertId });
   } catch (err) {
@@ -37,7 +39,7 @@ router.post("/", async (req, res) => {
 // @desc    Update a user
 router.put("/:user_id", async (req, res) => {
   const { user_id } = req.params;
-  const { name, email, phone } = req.body;
+  const { name, email, phone, password } = req.body;
 
   if (!name || !email || !phone) {
     return res.status(400).json({ error: "All fields are required." });
@@ -45,8 +47,8 @@ router.put("/:user_id", async (req, res) => {
 
   try {
     const [result] = await pool.query(
-      "UPDATE user SET name = ?, email = ?, phone# = ? WHERE user_id = ?",
-      [name, email, phone, user_id]
+      "UPDATE user SET name = ?, email = ?, phone = ?, password = ? WHERE user_id = ?",
+      [name, email, phone, password || null, user_id] // Ensure password is set to NULL if not provided
     );
 
     if (result.affectedRows === 0) {

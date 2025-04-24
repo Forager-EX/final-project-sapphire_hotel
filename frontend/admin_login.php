@@ -1,9 +1,58 @@
+<?php
+session_start();
+
+// Database connection
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $conn = new mysqli("localhost", "root", "", "sapphire_hotel");
+
+    if ($conn->connect_error) {
+        die("<script>alert('Database connection failed.');</script>");
+    }
+
+    // Get user input
+    $name = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Prepare SQL statement to fetch admin details
+    $stmt = $conn->prepare("SELECT admin_id, name, password FROM admin WHERE name = ?");
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if admin exists
+    if ($result->num_rows === 1) {
+        $admin = $result->fetch_assoc();
+
+        // Verify password using password_verify (if hashed)
+        if ($password === $admin['password']) {
+            // Store session data
+            $_SESSION['admin_id'] = $admin['admin_id'];
+            $_SESSION['admin_name'] = $admin['name'];
+
+            // Redirect to admin dashboard
+            header("Location: admin_dashboard.php");
+            exit();
+        } else {
+            // Incorrect password
+            echo "<script>alert('Incorrect password.');</script>";
+        }
+    } else {
+        // Admin not found
+        echo "<script>alert('Admin not found.');</script>";
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hotel Register</title>
+  <title>Admin Login</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,7 +68,7 @@
       align-items: center;
     }
 
-    .register-container {
+    .login-container {
       background: rgba(255, 255, 255, 0.95);
       padding: 40px 30px;
       border-radius: 10px;
@@ -33,7 +82,7 @@
       margin-bottom: 10px;
     }
 
-    .register-logo {
+    .login-logo {
       width: 180px;
       display: block;
       margin: 0 auto;
@@ -47,7 +96,6 @@
     }
 
     input[type="text"],
-    input[type="email"],
     input[type="password"] {
       width: 90%;
       padding: 12px 15px;
@@ -90,22 +138,19 @@
 </head>
 <body>
 
-  <div class="register-container">
+  <div class="login-container">
     <div class="logo-wrapper">
-      <img src="img/logo.jpg" alt="GrandView Hotel Logo" class="register-logo" />
+      <img src="img/logo.jpg" alt="GrandView Hotel Logo" class="login-logo" />
     </div>
-    <form action="/register" method="POST">
-      <input type="text" name="fullname" placeholder="Full Name" required />
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="text" name="username" placeholder="Username" required />
+    <form action="admin_login.php" method="POST">
+      <input type="text" name="username" placeholder="Username or Email" required />
       <input type="password" name="password" placeholder="Password" required />
-      <input type="password" name="confirm_password" placeholder="Confirm Password" required />
-      <button type="submit">Register</button>
+      <button type="submit">Login</button>
     </form>
     <div class="footer-link">
-      Already have an account? <a href="login.html">Login here</a>
+      Don't have an account? <a href="register.html">Register here</a>
     </div>
   </div>
-
+  
 </body>
 </html>

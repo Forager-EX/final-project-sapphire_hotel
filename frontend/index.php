@@ -48,7 +48,8 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="main">
+    <<div class="main" style="background-image: url('img/hotel.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 100vh; display: flex; align-items: center; justify-content: center; color: white;">
+
       <div class="main__container">
         <div class="main__content">
           <h1><b>SAPPHIRE HOTEL</b></h1>

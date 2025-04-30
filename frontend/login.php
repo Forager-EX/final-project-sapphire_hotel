@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hotel Register</title>
+  <title>Hotel Login</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,7 +19,7 @@
       align-items: center;
     }
 
-    .register-container {
+    .login-container {
       background: rgba(255, 255, 255, 0.95);
       padding: 40px 30px;
       border-radius: 10px;
@@ -33,7 +33,7 @@
       margin-bottom: 10px;
     }
 
-    .register-logo {
+    .login-logo {
       width: 180px;
       display: block;
       margin: 0 auto;
@@ -47,7 +47,6 @@
     }
 
     input[type="text"],
-    input[type="email"],
     input[type="password"] {
       width: 90%;
       padding: 12px 15px;
@@ -90,68 +89,23 @@
 </head>
 <body>
 
-<div class="register-container">
+  <div class="login-container">
     <div class="logo-wrapper">
-      <img src="img/logo.jpg" alt="GrandView Hotel Logo" class="register-logo" />
+      <img src="img/logo.jpg" alt="GrandView Hotel Logo" class="login-logo" />
     </div>
-    <form action="register.php" method="POST">
-      <input type="text" name="fullname" placeholder="Full Name" required />
-      <input type="email" name="email" placeholder="Email Address" required />
+
+    <!-- FORM STARTS HERE -->
+    <form action="login_process.php" method="POST">
+      <input type="text" name="username" placeholder="Username or Email" required />
       <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Register</button>
+      <button type="submit">Login</button>
     </form>
+    <!-- FORM ENDS HERE -->
+
     <div class="footer-link">
-      Already have an account? <a href="login.html">Login here</a>
+      Don't have an account? <a href="register.php">Register here</a>
     </div>
   </div>
 
-  <?php
-  require 'db.php';
-// Only run if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Database connection details
-    $host = 'localhost';
-    $user = 'root';
-    $pass = '';
-    $dbname = 'sapphire_hotel'; // Replace with your DB name
-
-    // Create connection
-    $conn = new mysqli($host, $user, $pass, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Get and sanitize form data
-    $name = $_POST['fullname'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $createdAt = date('Y-m-d');
-
-
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Prepare SQL query
-    $sql = "INSERT INTO user (name, email, createdAt, password)
-            VALUES (?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $name, $email, $createdAt, $hashed_password);
-
-    if ($stmt->execute()) {
-      echo "<script>alert('Registration successful!'); window.location.href = 'login.html';</script>";
-  } else {
-      echo "<script>alert('Error: " . addslashes($stmt->error) . "');</script>";
-  }
-  
-
-    // Close
-    $stmt->close();
-    $conn->close();
-}
-?>
-  
 </body>
 </html>

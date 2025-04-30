@@ -21,12 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Room data
   const roomTypes = {
-    standard: { price: 199, description: "Standard Room with queen bed" },
-    deluxe: { price: 299, description: "Deluxe Room with king bed" },
-    suite: {
-      price: 399,
-      description: "Executive Suite with separate living area",
-    },
+    standard: { price: ₱ 2,500, description: "Standard Room with queen bed" },
+    deluxe: { price: ₱ 4,000, description: "Deluxe Room with king bed" },
+    Exclusive: {price: ₱6,000,description: "Exclusive Suite with separate living area"},
   };
 
   // Function to calculate total nights
@@ -60,18 +57,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update summary fields
     document.getElementById(
       "summaryRoomType"
-    ).innerHTML = `<strong>Room Type:</strong> ${
+    ).innerHTML = `<strong>Room Type:</strong> ₱{
       roomType.charAt(0).toUpperCase() + roomType.slice(1)
     } - ${roomInfo.description}`;
     document.getElementById(
       "summaryGuests"
-    ).innerHTML = `<strong>Number of Guests:</strong> ${numberOfGuests}`;
+    ).innerHTML = `<strong>Number of Guests:</strong> ₱{numberOfGuests}`;
     document.getElementById(
       "summaryNights"
-    ).innerHTML = `<strong>Total Nights:</strong> ${days}`;
+    ).innerHTML = `<strong>Total Nights:</strong> ₱{days}`;
     document.getElementById(
       "summaryTotalAmount"
-    ).innerHTML = `<strong>Total Amount:</strong> $${totalCost.toFixed(2)}`;
+    ).innerHTML = `<strong>Total Amount:</strong> ₱{totalCost.toFixed(2)}`;
   }
 
   // Event listeners for input fields
@@ -118,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Show payment amount in overlay
       document.getElementById(
         "paymentAmount"
-      ).innerHTML = `Total Amount: $${totalCost.toFixed(2)}`;
+      ).innerHTML = `Total Amount: ₱{totalCost.toFixed(2)}`;
 
       // Show payment overlay
       paymentOverlay.style.display = "flex";

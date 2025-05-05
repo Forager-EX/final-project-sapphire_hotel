@@ -85,33 +85,39 @@
     .footer-link a:hover {
       text-decoration: underline;
     }
+
+    .error-message {
+      color: red;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
   <div class="login-container">
     <div class="logo-wrapper">
-      <img src="img/logo.jpg" alt="GrandView Hotel Logo" class="login-logo" />
+      <img src="img/logo.jpg" alt="Sapphire Hotel Logo" class="login-logo" />
     </div>
 
-    <!-- FORM STARTS HERE -->
+    <!-- Error Messages -->
     <?php
-if (isset($_GET['error'])) {
-    if ($_GET['error'] === "wrongpassword") {
-        echo "<p style='color:red;'>Incorrect password.</p>";
-    } elseif ($_GET['error'] === "usernotfound") {
-        echo "<p style='color:red;'>Email not found.</p>";
+    if (isset($_GET['error'])) {
+        if ($_GET['error'] === "wrongpassword") {
+            echo "<p class='error-message'>Incorrect password.</p>";
+        } elseif ($_GET['error'] === "usernotfound") {
+            echo "<p class='error-message'>Email not found.</p>";
+        } elseif ($_GET['error'] === "emptyfields") {
+            echo "<p class='error-message'>Please fill in all fields.</p>";
+        }
     }
-}
-?>
+    ?>
 
+    <!-- Login Form -->
     <form action="login_process.php" method="POST">
-  <input type="text" name="username" placeholder="Email" required />
-  <input type="password" name="password" placeholder="Password" required />
-  <button type="submit">Login</button>
-</form>
-
-    <!-- FORM ENDS HERE -->
+      <input type="text" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
 
     <div class="footer-link">
       Don't have an account? <a href="register.php">Register here</a>

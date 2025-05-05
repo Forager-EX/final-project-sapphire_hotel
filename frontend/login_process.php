@@ -1,52 +1,37 @@
 <?php
 session_start();
+include(__DIR__ . '/../db.php');
 
-// Connect to your database
-$host = "localhost";
-$dbname = "sapphire_hotel";   // <-- change this
-$dbuser = "root";             // <-- default in XAMPP
-$dbpass = "";                 // <-- default empty in XAMPP
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-$conn = new mysqli($host, $dbuser, $dbpass, $dbname);
+    // Protect against SQL injection
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
 
-// Get values from the form
-$username = $_POST['username'];  // This will be the email
-$password = $_POST['password'];  // Plain text password
-
-// Prevent SQL injection
-$username = $conn->real_escape_string($username);
-$password = $conn->real_escape_string($password);
-
-// Query to check if the email exists
-$sql = "SELECT * FROM user WHERE email = '$username'";
-$result = $conn->query($sql);
-
-// Check if the user exists
-if ($result->num_rows === 1) {
-    $user = $result->fetch_assoc();
-
-    // Debug: Check if the hashed password matches
-    if (password_verify($password, $user['password'])) {
-        echo "Password matches!"; // Debug output
-
-        // Password is correct, start session
-        $_SESSION['user_id'] = $user['user_id'];  // Store user_id in session
-        $_SESSION['username'] = $user['name'];    // Store username in session
-        header("Location: index.php"); // Redirect to index
-        exit();
+       // Verify password
+        if (password_verify($password, $user['password'])) {
+            // Success
+            echo "Login successful!";
+            // Redirect or start session
+        } else {
+            // Wrong password
+            header("Location: login.php?error=wrongpassword");
+            exit();
+        }
     } else {
-        echo "Password does not match!"; // Debug output
+        // Email not found
+        header("Location: login.php?error=usernotfound");
         exit();
     }
-} else {
-    echo "No user found!"; // Debug output
-    // No user found with that email
-    header("Location: login.php?error=wrongpassword");  // User not found
-    exit();
+
+    $stmt->close();
+    $conn->close();
 }
 ?>

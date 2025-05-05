@@ -1,39 +1,52 @@
 <?php
 session_start();
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// Connect to your database
+$host = "localhost";
+$dbname = "sapphire_hotel";   // <-- change this
+$dbuser = "root";             // <-- default in XAMPP
+$dbpass = "";                 // <-- default empty in XAMPP
 
-// DB connection
-$dsn = 'mysql:host=localhost;dbname=sapphire_hotel';
-$db_user = 'root';
-$db_pass = '';
+$conn = new mysqli($host, $dbuser, $dbpass, $dbname);
 
-try {
-    $pdo = new PDO($dsn, $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Get form input
-$login = $_POST['Username or Email'] ?? '';
-$password = $_POST['Password'] ?? '';
+// Get values from the form
+$username = $_POST['username'];  // This will be the email
+$password = $_POST['password'];  // Plain text password
 
-// Query (check against name or email)
-$sql = "SELECT * FROM user WHERE name = :Username OR Email = :username LIMIT 1";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':username', $login);
-$stmt->execute();
+// Prevent SQL injection
+$username = $conn->real_escape_string($username);
+$password = $conn->real_escape_string($password);
 
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+// Query to check if the email exists
+$sql = "SELECT * FROM user WHERE email = '$username'";
+$result = $conn->query($sql);
 
-if ($user && password_verify($password, $user['password'])) {
-    $_SESSION['username'] = $user['name'];
-    header("Location: dashboard.php");
-    exit;
+// Check if the user exists
+if ($result->num_rows === 1) {
+    $user = $result->fetch_assoc();
+
+    // Debug: Check if the hashed password matches
+    if (password_verify($password, $user['password'])) {
+        echo "Password matches!"; // Debug output
+
+        // Password is correct, start session
+        $_SESSION['user_id'] = $user['user_id'];  // Store user_id in session
+        $_SESSION['username'] = $user['name'];    // Store username in session
+        header("Location: index.php"); // Redirect to index
+        exit();
+    } else {
+        echo "Password does not match!"; // Debug output
+        exit();
+    }
 } else {
-    echo "<script>alert('Invalid username or password'); window.location.href = 'login.php';</script>";
-    exit;
+    echo "No user found!"; // Debug output
+    // No user found with that email
+    header("Location: login.php?error=wrongpassword");  // User not found
+    exit();
 }
 ?>

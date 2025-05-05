@@ -106,7 +106,6 @@
   </div>
 
   <?php
-  require 'db.php';
 // Only run if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection details

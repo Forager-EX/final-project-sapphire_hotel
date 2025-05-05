@@ -11,7 +11,7 @@
     <!-- Navbar Section -->
     <nav class="navbar">
       <div class="navbar__container">
-        <a href="index.html" id="navbar__logo">
+        <a href="index.php" id="navbar__logo">
           <img
             src="img/sh icon.png"
             alt="Sapphire Hotel Logo"
@@ -26,7 +26,7 @@
         </div>
         <ul class="navbar__menu">
           <li class="navbar__item">
-            <a href="index.html" class="navbar__links">Home</a>
+            <a href="index.php" class="navbar__links">Home</a>
           </li>
           <li class="navbar__item">
             <a href="services.html" class="navbar__links">Services</a> 
@@ -40,9 +40,7 @@
           <li class="navbar__item">
             <a href="profile.html" class="navbar__links">Profile</a>
           </li>
-          <li class="navbar__btn">
-            <a href="login.html" class="button">Login/Sign-up</a>
-          </li>
+          
         </ul>
       </div>
     </nav>

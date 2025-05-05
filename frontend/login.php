@@ -95,11 +95,22 @@
     </div>
 
     <!-- FORM STARTS HERE -->
+    <?php
+if (isset($_GET['error'])) {
+    if ($_GET['error'] === "wrongpassword") {
+        echo "<p style='color:red;'>Incorrect password.</p>";
+    } elseif ($_GET['error'] === "usernotfound") {
+        echo "<p style='color:red;'>Email not found.</p>";
+    }
+}
+?>
+
     <form action="login_process.php" method="POST">
-      <input type="text" name="username" placeholder="Username or Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
+  <input type="text" name="username" placeholder="Email" required />
+  <input type="password" name="password" placeholder="Password" required />
+  <button type="submit">Login</button>
+</form>
+
     <!-- FORM ENDS HERE -->
 
     <div class="footer-link">

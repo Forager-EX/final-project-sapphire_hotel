@@ -38,7 +38,7 @@
             <a href="contact.html" class="navbar__links">Contact</a>
           </li>
           <li class="navbar__item">
-            <a href="profile.html" class="navbar__links">Profile</a>
+            <a href="booking.html" class="navbar__links">Profile</a>
           </li>
           
         </ul>

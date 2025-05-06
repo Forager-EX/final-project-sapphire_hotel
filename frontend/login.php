@@ -1,3 +1,51 @@
+<?php
+// Start the session
+session_start();
+
+// Include database connection
+include('../db.php'); // Include your db.php file
+
+// Check if the form is submitted
+if (isset($_POST['email']) && isset($_POST['password'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Check if fields are empty
+    if (empty($email) || empty($password)) {
+        header("Location: login.php?error=emptyfields");
+        exit();
+    }
+
+    // Query to check if the user exists
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    // Check if user exists and password matches
+    if ($user) {
+        if ($password === $user['password']) { // Directly compare the passwords
+            // Store user data in session
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['name'] = $user['name'];
+            $_SESSION['email'] = $user['email'];
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "<script type='text/javascript'>
+                    alert('Password is incorrect.\\nEmail from DB: " . $user['email'] . "\\nStored password from DB: " . $user['password'] . "');
+                    window.location.href = 'login.php?error=wrongpassword';
+                  </script>";
+            exit();
+        }
+    } else {
+        header("Location: login.php?error=usernotfound");
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,7 +161,7 @@
     ?>
 
     <!-- Login Form -->
-    <form action="login_process.php" method="POST">
+    <form action="login.php" method="POST">
       <input type="text" name="email" placeholder="Email" required />
       <input type="password" name="password" placeholder="Password" required />
       <button type="submit">Login</button>

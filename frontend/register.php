@@ -104,7 +104,6 @@
       Already have an account? <a href="login.html">Login here</a>
     </div>
   </div>
-
   <?php
 // Only run if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -128,29 +127,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $createdAt = date('Y-m-d');
 
-
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
     // Prepare SQL query
     $sql = "INSERT INTO user (name, email, createdAt, password)
             VALUES (?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $name, $email, $createdAt, $hashed_password);
+    $stmt->bind_param("ssss", $name, $email, $createdAt, $password); // Use plain password
 
     if ($stmt->execute()) {
-      echo "<script>alert('Registration successful!'); window.location.href = 'login.html';</script>";
-  } else {
-      echo "<script>alert('Error: " . addslashes($stmt->error) . "');</script>";
-  }
-  
+        echo "<script>alert('Registration successful!'); window.location.href = 'login.php';</script>";
+    } else {
+        echo "<script>alert('Error: " . addslashes($stmt->error) . "');</script>";
+    }
 
     // Close
     $stmt->close();
     $conn->close();
 }
 ?>
-  
+
 </body>
 </html>

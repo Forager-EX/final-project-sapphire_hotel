@@ -17,7 +17,7 @@
     <!-- Navbar (consistent with other pages) -->
     <nav class="navbar">
       <div class="navbar__container">
-        <a href="index.html" id="navbar__logo">
+        <a href="index.php" id="navbar__logo">
           <img
             src="img/sh icon.png"
             alt="Sapphire Hotel Logo"
@@ -32,7 +32,7 @@
         </div>
         <ul class="navbar__menu">
           <li class="navbar__item">
-            <a href="index.html" class="navbar__links">Home</a>
+            <a href="index.php" class="navbar__links">Home</a>
           </li>
           <li class="navbar__item">
             <a href="services.html" class="navbar__links active">Services</a>
@@ -53,18 +53,21 @@
       </div>
     </nav>
 
+    
     <!-- Hero Banner -->
-    <section class="services-hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1>Our Exceptional Services</h1>
-          <p>
-            Experience unparalleled comfort and luxury with Sapphire Hotel's
-            premium amenities
-          </p>
-        </div>
-      </div>
-    </section>
+<section class="main" style="background-image: url('img/ser.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 50vh; display: flex; align-items: center; justify-content: center; color: white;">
+
+  <div class="container">
+    <div class="hero-content">
+      <h1>Our Exceptional Services</h1>
+      <p>
+        Experience unparalleled comfort and luxury with Sapphire Hotel's
+        premium amenities.
+      </p>
+    </div>
+  </div>
+</section>
+
 
     <!-- Services Grid -->
     <section class="services-grid">
@@ -157,6 +160,43 @@
               </ul>
             </div>
           </div>
+          <!-- Fitness Center -->
+<div class="service-card">
+  <div class="service-icon">
+    <i class="fas fa-dumbbell"></i>
+  </div>
+  <div class="service-content">
+    <h3>24/7 Fitness Center</h3>
+    <p>
+      Maintain your wellness routine with our fully-equipped facility:
+    </p>
+    <ul class="service-features">
+      <li><i class="fas fa-heartbeat"></i> Cardio machines</li>
+      <li><i class="fas fa-weight"></i> Strength training equipment</li>
+      <li><i class="fas fa-yoga"></i> Yoga/Pilates studio</li>
+      <li><i class="fas fa-user-tie"></i> Personal training sessions</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Concierge Services -->
+<div class="service-card">
+  <div class="service-icon">
+    <i class="fas fa-concierge-bell"></i>
+  </div>
+  <div class="service-content">
+    <h3>Personal Concierge</h3>
+    <p>
+      Let our dedicated team enhance your stay with:
+    </p>
+    <ul class="service-features">
+      <li><i class="fas fa-globe-americas"></i> Tour bookings & recommendations</li>
+      <li><i class="fas fa-car-side"></i> Transportation arrangements</li>
+      <li><i class="fas fa-utensils"></i> Exclusive restaurant reservations</li>
+      <li><i class="fas fa-calendar-alt"></i> Event planning services</li>
+    </ul>
+  </div>
+</div>
         </div>
       </div>
     </section>

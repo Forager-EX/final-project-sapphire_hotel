@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['admin_name'] = $admin['name'];
 
             // Redirect to admin dashboard
-            header("Location: admin_dashboard.php");
+            header("Location: material-dashboard-master/pages/dashboard.html");
             exit();
         } else {
             // Incorrect password

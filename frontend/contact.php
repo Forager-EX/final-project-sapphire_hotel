@@ -1,3 +1,9 @@
+<?php
+require("../db.php");
+include("../session.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,19 +35,19 @@
             <a href="index.php" class="navbar__links">Home</a>
           </li>
           <li class="navbar__item">
-            <a href="services.html" class="navbar__links">Services</a>
+            <a href="services.php" class="navbar__links">Services</a>
           </li>
           <li class="navbar__item">
-            <a href="rooms.html" class="navbar__links">Rooms</a>
+            <a href="rooms.php" class="navbar__links">Rooms</a>
           </li>
           <li class="navbar__item">
-            <a href="contact.html" class="navbar__links">Contact</a>
+            <a href="contact.pphp" class="navbar__links">Contact</a>
           </li>
           <li class="navbar__item">
-            <a href="profile.html" class="navbar__links">Profile</a>
+            <a href="profile.php" class="navbar__links">Profile</a>
           </li>
           <li class="navbar__btn">
-            <a href="login.html" class="button">Login/Sign-up</a>
+            <a href="login.php" class="button">Login/Sign-up</a>
           </li>
         </ul>
       </div>

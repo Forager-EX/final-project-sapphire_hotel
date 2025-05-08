@@ -1,3 +1,36 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: admin_login.php");
+    exit;
+}
+
+$host = "localhost";
+$user = "root";
+$password = "";
+$db = "sapphire_hotel";
+
+$conn = new mysqli($host, $user, $password, $db);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$admin_id = $_SESSION['admin_id'];
+$stmt = $conn->prepare("SELECT name, email FROM admin WHERE admin_id = ?");
+$stmt->bind_param("i", $admin_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 1) {
+    $userData = $result->fetch_assoc();
+} else {
+    die("User not found.");
+}
+
+$stmt->close();
+$conn->close();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -333,7 +366,7 @@
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
-                <p>Name: <span id="name"><?php echo htmlspecialchars($userData['name']); ?></span></p>
+                <p> <span id="name"><?php echo htmlspecialchars($userData['name']); ?></span></p>
                 <p class="mb-0 font-weight-normal text-sm">Admin</p>
               </div>
             </div>
@@ -480,15 +513,15 @@
                     <ul class="list-group">
                       <li class="list-group-item border-0 ps-0 pt-0 text-sm">
                         <strong class="text-dark">Full Name:</strong> &nbsp;
-                        Alec M. Thompson
+                        <p> <span id="name"><?php echo htmlspecialchars($userData['name']); ?></span></p>
                       </li>
                       <li class="list-group-item border-0 ps-0 text-sm">
-                        <strong class="text-dark">Mobile:</strong> &nbsp; (44)
-                        123 1234 123
+                        <strong class="text-dark">Mobile:</strong> &nbsp;
+                        <p><span id="mobile"><?php echo htmlspecialchars($userData['mobile']); ?></span></p>
                       </li>
                       <li class="list-group-item border-0 ps-0 text-sm">
                         <strong class="text-dark">Email:</strong> &nbsp;
-                        alecthompson@mail.com
+                        <p> <span id="email"><?php echo htmlspecialchars($userData['email']); ?></span></p>
                       </li>
                       <li class="list-group-item border-0 ps-0 text-sm">
                         <strong class="text-dark">Location:</strong> &nbsp; USA

@@ -29,16 +29,16 @@
             <a href="index.php" class="navbar__links">Home</a>
           </li>
           <li class="navbar__item">
-            <a href="services.html" class="navbar__links">Services</a> 
+            <a href="services.php" class="navbar__links">Services</a> 
           </li>
           <li class="navbar__item">
-            <a href="rooms.html" class="navbar__links">Rooms</a>
+            <a href="rooms.php" class="navbar__links">Rooms</a>
           </li>
           <li class="navbar__item">
-            <a href="contact.html" class="navbar__links">Contact</a>
+            <a href="contact.php" class="navbar__links">Contact</a>
           </li>
           <li class="navbar__item">
-            <a href="booking.html" class="navbar__links">Profile</a>
+            <a href="booking.php" class="navbar__links">Profile</a>
           </li>
           
         </ul>

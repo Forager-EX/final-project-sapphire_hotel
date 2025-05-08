@@ -1,3 +1,8 @@
+<?php
+require("../db.php");
+include("../session.php");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -34,19 +39,19 @@
             <a href="index.php" class="navbar__links">Home</a>
           </li>
           <li class="navbar__item">
-            <a href="services.html" class="navbar__links">Services</a>
+            <a href="services.php" class="navbar__links">Services</a>
           </li>
           <li class="navbar__item">
-            <a href="rooms.html" class="navbar__links">Rooms</a>
+            <a href="rooms.php" class="navbar__links">Rooms</a>
           </li>
           <li class="navbar__item">
-            <a href="contact.html" class="navbar__links">Contact</a>
+            <a href="contact.php" class="navbar__links">Contact</a>
           </li>
           <li class="navbar__item">
-            <a href="profile.html" class="navbar__links">Profile</a>
+            <a href="profile.php" class="navbar__links">Profile</a>
           </li>
           <li class="navbar__btn">
-            <a href="login.html" class="button">Login/Sign-up</a>
+            <a href="login.php" class="button">Login/Sign-up</a>
           </li>
         </ul>
       </div>
@@ -74,7 +79,7 @@
                 <li><i class="fas fa-wifi"></i> High-speed WiFi</li>
                 <li><i class="fas fa-snowflake"></i> Climate control</li>
               </ul>
-              <a href="booking.html" class="book-now-button">Book Now</a>
+              <a href="booking.php" class="book-now-button">Book Now</a>
             </div>
           </div>
 
@@ -94,7 +99,7 @@
                 <li><i class="fas fa-snowflake"></i> Climate control</li>
                 <li><i class="fas fa-tv"></i> Smart TV</li>
               </ul>
-              <a href="booking.html" class="book-now-button">Book Now</a>
+              <a href="booking.php" class="book-now-button">Book Now</a>
             </div>
           </div>
 
@@ -115,7 +120,7 @@
                 <li><i class="fas fa-tv"></i> Smart TV</li>
                 <li><i class="fas fa-wine-bottle"></i> Minibar</li>
               </ul>
-              <a href="booking.html" class="book-now-button">Book Now</a>
+              <a href="booking.php" class="book-now-button">Book Now</a>
             </div>
           </div>
         </div>

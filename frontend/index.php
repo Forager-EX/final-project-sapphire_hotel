@@ -52,7 +52,7 @@
         <div class="main__content">
           <h1><b>SAPPHIRE HOTEL</b></h1>
           <h3>Your Gateway to Relaxation and Elegance</h3>
-          <button class="main_btn"><a href="booking.html">Book Now</a></button>
+          <button class="main_btn"><a href="booking.php">Book Now</a></button>
         </div>
       </div>
     </div>

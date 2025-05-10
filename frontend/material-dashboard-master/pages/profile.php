@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 
 $admin_id = $_SESSION['admin_id'];
-$stmt = $conn->prepare("SELECT name, email FROM admin WHERE admin_id = ?");
+$stmt = $conn->prepare("SELECT name FROM admin WHERE admin_id = ?");
 $stmt->bind_param("i", $admin_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -99,25 +99,25 @@ $conn->close();
       <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/dashboard.html">
+            <a class="nav-link text-dark" href="../pages/dashboard.php">
               <i class="material-symbols-rounded opacity-5">dashboard</i>
               <span class="nav-link-text ms-1">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/tables.html">
+            <a class="nav-link text-dark" href="../pages/tables.php">
               <i class="material-symbols-rounded opacity-5">table_view</i>
               <span class="nav-link-text ms-1">Tables</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/billing.html">
+            <a class="nav-link text-dark" href="../pages/billing.php">
               <i class="material-symbols-rounded opacity-5">receipt_long</i>
               <span class="nav-link-text ms-1">Billing</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/notifications.html">
+            <a class="nav-link text-dark" href="../pages/notifications.php">
               <i class="material-symbols-rounded opacity-5">notifications</i>
               <span class="nav-link-text ms-1">Notifications</span>
             </a>
@@ -132,14 +132,14 @@ $conn->close();
           <li class="nav-item">
             <a
               class="nav-link active bg-gradient-dark text-white"
-              href="../pages/profile.html"
+              href="../pages/profile.php"
             >
               <i class="material-symbols-rounded opacity-5">person</i>
               <span class="nav-link-text ms-1">Profile</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/sign-in.html">
+            <a class="nav-link text-dark" href="../pages/sign-in.php">
               <i class="material-symbols-rounded opacity-5">login</i>
               <span class="nav-link-text ms-1">Sign In</span>
             </a>
@@ -333,7 +333,7 @@ $conn->close();
               </li>
               <li class="nav-item d-flex align-items-center">
                 <a
-                  href="../pages/sign-in.html"
+                  href="../pages/sign-in.php"
                   class="nav-link text-body font-weight-bold px-0"
                 >
                   <i class="material-symbols-rounded">account_circle</i>
@@ -517,7 +517,10 @@ $conn->close();
                       </li>
                       <li class="list-group-item border-0 ps-0 text-sm">
                         <strong class="text-dark">Mobile:</strong> &nbsp;
-                        <p><span id="mobile"><?php echo htmlspecialchars($userData['mobile']); ?></span></p>
+                        <p><span id="mobile">
+<?php echo isset($userData['mobile']) ? htmlspecialchars($userData['mobile']) : 'Not available'; ?>
+</span></p>
+
                       </li>
                       <li class="list-group-item border-0 ps-0 text-sm">
                         <strong class="text-dark">Email:</strong> &nbsp;

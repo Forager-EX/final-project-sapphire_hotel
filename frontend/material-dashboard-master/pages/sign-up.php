@@ -1,17 +1,12 @@
-<!--
-=========================================================
-* Material Dashboard 3 - v3.2.0
-=========================================================
+<?php
+session_start();
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../../admin_log_in.php");
+    exit();
+}
+?>
 
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -65,7 +60,7 @@
             <div class="container-fluid ps-2 pe-0">
               <a
                 class="navbar-brand font-weight-bolder ms-lg-0 ms-3"
-                href="../pages/dashboard.html"
+                href="../pages/dashboard.php"
               >
                 Sapphire Hotel
               </a>
@@ -90,20 +85,20 @@
                     <a
                       class="nav-link d-flex align-items-center me-2 active"
                       aria-current="page"
-                      href="../pages/dashboard.html"
+                      href="../pages/dashboard.php"
                     >
                       <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
                       Dashboard
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-2" href="../pages/profile.html">
+                    <a class="nav-link me-2" href="../pages/profile.php">
                       <i class="fa fa-user opacity-6 text-dark me-1"></i>
                       Profile
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-2" href="../pages/sign-up.html">
+                    <a class="nav-link me-2" href="../pages/sign-up.php">
                       <i
                         class="fas fa-user-circle opacity-6 text-dark me-1"
                       ></i>
@@ -111,7 +106,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-2" href="../pages/sign-in.html">
+                    <a class="nav-link me-2" href="../pages/sign-in.php">
                       <i class="fas fa-key opacity-6 text-dark me-1"></i>
                       Sign In
                     </a>
@@ -195,7 +190,7 @@
                     <p class="mb-2 text-sm mx-auto">
                       Already have an account?
                       <a
-                        href="../pages/sign-in.html"
+                        href="../pages/sign-in.php"
                         class="text-primary text-gradient font-weight-bold"
                         >Sign in</a
                       >

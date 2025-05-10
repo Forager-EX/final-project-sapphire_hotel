@@ -1,17 +1,12 @@
-<!--
-=========================================================
-* Material Dashboard 3 - v3.2.0
-=========================================================
+<?php
+session_start();
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../../admin_log_in.php");
+    exit();
+}
+?>
 
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -84,7 +79,7 @@
       <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/dashboard.html">
+            <a class="nav-link text-dark" href="../pages/dashboard.php">
               <i class="material-symbols-rounded opacity-5">dashboard</i>
               <span class="nav-link-text ms-1">Dashboard</span>
             </a>
@@ -92,20 +87,20 @@
           <li class="nav-item">
             <a
               class="nav-link active bg-gradient-dark text-white"
-              href="../pages/tables.html"
+              href="../pages/tables.php"
             >
               <i class="material-symbols-rounded opacity-5">table_view</i>
               <span class="nav-link-text ms-1">Tables</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/billing.html">
+            <a class="nav-link text-dark" href="../pages/billing.php">
               <i class="material-symbols-rounded opacity-5">receipt_long</i>
               <span class="nav-link-text ms-1">Billing</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/notifications.html">
+            <a class="nav-link text-dark" href="../pages/notifications.php">
               <i class="material-symbols-rounded opacity-5">notifications</i>
               <span class="nav-link-text ms-1">Notifications</span>
             </a>
@@ -118,13 +113,13 @@
             </h6>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/profile.html">
+            <a class="nav-link text-dark" href="../pages/profile.php">
               <i class="material-symbols-rounded opacity-5">person</i>
               <span class="nav-link-text ms-1">Profile</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/sign-in.html">
+            <a class="nav-link text-dark" href="../pages/sign-in.php">
               <i class="material-symbols-rounded opacity-5">login</i>
               <span class="nav-link-text ms-1">Sign In</span>
             </a>

@@ -1,17 +1,12 @@
-<!--
-=========================================================
-* Material Dashboard 3 - v3.2.0
-=========================================================
+<?php
+session_start();
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../../admin_log_in.php");
+    exit();
+}
+?>
 
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,8 +20,8 @@
       sizes="76x76"
       href="../assets/img/apple-icon.png"
     />
-    <link rel="icon" type="image/png" href="../assets/img/logos/logo.jpg" />
-    <title>Sapphire Hotel Admin</title>
+    <link rel="icon" type="image/png" href="../assets/img/logos/sh icon.png" />
+    <title>Sapphire Hotel</title>
     <!--     Fonts and icons     -->
     <link
       rel="stylesheet"
@@ -84,28 +79,28 @@
       <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/dashboard.html">
+            <a
+              class="nav-link active bg-gradient-dark text-white"
+              href="../pages/dashboard.php"
+            >
               <i class="material-symbols-rounded opacity-5">dashboard</i>
               <span class="nav-link-text ms-1">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/tables.html">
+            <a class="nav-link text-dark" href="../pages/tables.php">
               <i class="material-symbols-rounded opacity-5">table_view</i>
               <span class="nav-link-text ms-1">Tables</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/billing.html">
+            <a class="nav-link text-dark" href="../pages/billing.php">
               <i class="material-symbols-rounded opacity-5">receipt_long</i>
               <span class="nav-link-text ms-1">Billing</span>
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link active bg-gradient-dark text-white"
-              href="../pages/notifications.html"
-            >
+            <a class="nav-link text-dark" href="../pages/notifications.php">
               <i class="material-symbols-rounded opacity-5">notifications</i>
               <span class="nav-link-text ms-1">Notifications</span>
             </a>
@@ -118,13 +113,13 @@
             </h6>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/profile.html">
+            <a class="nav-link text-dark" href="../pages/profile.php">
               <i class="material-symbols-rounded opacity-5">person</i>
               <span class="nav-link-text ms-1">Profile</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/sign-in.html">
+            <a class="nav-link text-dark" href="../pages/sign-in.php">
               <i class="material-symbols-rounded opacity-5">login</i>
               <span class="nav-link-text ms-1">Sign In</span>
             </a>
@@ -153,7 +148,7 @@
                 class="breadcrumb-item text-sm text-dark active"
                 aria-current="page"
               >
-                Notifications
+                Dashboard
               </li>
             </ol>
           </nav>
@@ -320,7 +315,7 @@
               </li>
               <li class="nav-item d-flex align-items-center">
                 <a
-                  href="../pages/sign-in.html"
+                  href="../pages/sign-in.php"
                   class="nav-link text-body font-weight-bold px-0"
                 >
                   <i class="material-symbols-rounded">account_circle</i>
@@ -333,320 +328,235 @@
       <!-- End Navbar -->
       <div class="container-fluid py-2">
         <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="card mt-4">
-              <div class="card-header p-3">
-                <h5 class="mb-0">Alerts</h5>
+          <div class="ms-3">
+            <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
+            <p class="mb-4">
+              Check the sales, value and bounce rate by country.
+            </p>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-2 ps-3">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <p class="text-sm mb-0 text-capitalize">Today's Money</p>
+                    <h4 class="mb-0">$53k</h4>
+                  </div>
+                  <div
+                    class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg"
+                  >
+                    <i class="material-symbols-rounded opacity-10">weekend</i>
+                  </div>
+                </div>
               </div>
-              <div class="card-body p-3 pb-0">
-                <div
-                  class="alert alert-primary alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple primary alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
+              <hr class="dark horizontal my-0" />
+              <div class="card-footer p-2 ps-3">
+                <p class="mb-0 text-sm">
+                  <span class="text-success font-weight-bolder">+55% </span>than
+                  last week
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-2 ps-3">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <p class="text-sm mb-0 text-capitalize">Today's Users</p>
+                    <h4 class="mb-0">2300</h4>
+                  </div>
+                  <div
+                    class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg"
                   >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                    <i class="material-symbols-rounded opacity-10">person</i>
+                  </div>
                 </div>
-                <div
-                  class="alert alert-secondary alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple secondary alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
+              </div>
+              <hr class="dark horizontal my-0" />
+              <div class="card-footer p-2 ps-3">
+                <p class="mb-0 text-sm">
+                  <span class="text-success font-weight-bolder">+3% </span>than
+                  last month
+                </p>
+              </div>
+            </div>
+          </div> 
+          <div class="col-xl-3 col-sm-6">
+            <div class="card">
+              <div class="card-header p-2 ps-3">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <p class="text-sm mb-0 text-capitalize">Sales</p>
+                    <h4 class="mb-0">$103,430</h4>
+                  </div>
+                  <div
+                    class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg"
                   >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                    <i class="material-symbols-rounded opacity-10">weekend</i>
+                  </div>
                 </div>
-                <div
-                  class="alert alert-success alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple success alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+              </div>
+              <hr class="dark horizontal my-0" />
+              <div class="card-footer p-2 ps-3">
+                <p class="mb-0 text-sm">
+                  <span class="text-success font-weight-bolder">+5% </span>than
+                  yesterday
+                </p>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mt-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-0">Website Views</h6>
+                <p class="text-sm">Last Campaign Performance</p>
+                <div class="pe-2">
+                  <div class="chart">
+                    <canvas
+                      id="chart-bars"
+                      class="chart-canvas"
+                      height="170"
+                    ></canvas>
+                  </div>
                 </div>
-                <div
-                  class="alert alert-danger alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple danger alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
+                <hr class="dark horizontal" />
+                <div class="d-flex">
+                  <i class="material-symbols-rounded text-sm my-auto me-1"
+                    >schedule</i
                   >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-warning alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple warning alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-info alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple info alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-light alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple light alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-dark alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple dark alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                  <p class="mb-0 text-sm">campaign sent 2 days ago</p>
                 </div>
               </div>
             </div>
-            <div class="card mt-4">
-              <div class="card-header p-3">
-                <h5 class="mb-0">Notifications</h5>
-                <p class="text-sm mb-0">
-                  Notifications on this page use Toasts from Bootstrap. Read
-                  more details
-                  <a
-                    href="https://getbootstrap.com/docs/5.0/components/toasts/"
-                    target="
-          "
-                    >here</a
-                  >.
+          </div>
+          <div class="col-lg-4 col-md-6 mt-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-0">Daily Sales</h6>
+                <p class="text-sm">
+                  (<span class="font-weight-bolder">+15%</span>) increase in
+                  today sales.
+                </p>
+                <div class="pe-2">
+                  <div class="chart">
+                    <canvas
+                      id="chart-line"
+                      class="chart-canvas"
+                      height="170"
+                    ></canvas>
+                  </div>
+                </div>
+                <hr class="dark horizontal" />
+                <div class="d-flex">
+                  <i class="material-symbols-rounded text-sm my-auto me-1"
+                    >schedule</i
+                  >
+                  <p class="mb-0 text-sm">updated 4 min ago</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mt-4 mb-4">
+            <div class="card h-100">
+              <div class="card-header pb-0">
+                <h6>Orders overview</h6>
+                <p class="text-sm">
+                  <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
+                  <span class="font-weight-bold">24%</span> this month
                 </p>
               </div>
               <div class="card-body p-3">
-                <div class="row">
-                  <div class="col-lg-3 col-sm-6 col-12">
-                    <button
-                      class="btn bg-gradient-success w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="successToast"
-                    >
-                      Success
-                    </button>
+                <div class="timeline timeline-one-side">
+                  <div class="timeline-block mb-3">
+                    <span class="timeline-step">
+                      <i
+                        class="material-symbols-rounded text-success text-gradient"
+                        >notifications</i
+                      >
+                    </span>
+                    <div class="timeline-content">
+                      <h6 class="text-dark text-sm font-weight-bold mb-0">
+                        $2400, Design changes
+                      </h6>
+                      <p
+                        class="text-secondary font-weight-bold text-xs mt-1 mb-0"
+                      >
+                        22 DEC 7:20 PM
+                      </p>
+                    </div>
                   </div>
-                  <div class="col-lg-3 col-sm-6 col-12 mt-sm-0 mt-2">
-                    <button
-                      class="btn bg-gradient-info w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="infoToast"
-                    >
-                      Info
-                    </button>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-12 mt-lg-0 mt-2">
-                    <button
-                      class="btn bg-gradient-warning w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="warningToast"
-                    >
-                      Warning
-                    </button>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-12 mt-lg-0 mt-2">
-                    <button
-                      class="btn bg-gradient-danger w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="dangerToast"
-                    >
-                      Danger
-                    </button>
+                  <div class="timeline-block mb-3">
+                    <span class="timeline-step">
+                      <i
+                        class="material-symbols-rounded text-danger text-gradient"
+                        >code</i
+                      >
+                    </span>
+                    <div class="timeline-content">
+                      <h6 class="text-dark text-sm font-weight-bold mb-0">
+                        New order #1832412
+                      </h6>
+                      <p
+                        class="text-secondary font-weight-bold text-xs mt-1 mb-0"
+                      >
+                        21 DEC 11 PM
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="position-fixed bottom-1 end-1 z-index-2">
-          <div
-            class="toast fade hide p-2 bg-white"
-            role="alert"
-            aria-live="assertive"
-            id="successToast"
-            aria-atomic="true"
-          >
-            <div class="toast-header border-0">
-              <i class="material-symbols-rounded text-success me-2"> check </i>
-              <span class="me-auto font-weight-bold">Material Dashboard </span>
-              <small class="text-body">11 mins ago</small>
-              <i
-                class="fas fa-times text-md ms-3 cursor-pointer"
-                data-bs-dismiss="toast"
-                aria-label="Close"
-              ></i>
-            </div>
-            <hr class="horizontal dark m-0" />
-            <div class="toast-body">
-              Hello, world! This is a notification message.
-            </div>
-          </div>
-          <div
-            class="toast fade hide p-2 mt-2 bg-gradient-info"
-            role="alert"
-            aria-live="assertive"
-            id="infoToast"
-            aria-atomic="true"
-          >
-            <div class="toast-header bg-transparent border-0">
-              <i class="material-symbols-rounded text-white me-2">
-                notifications
-              </i>
-              <span class="me-auto text-white font-weight-bold"
-                >Material Dashboard
-              </span>
-              <small class="text-white">11 mins ago</small>
-              <i
-                class="fas fa-times text-md text-white ms-3 cursor-pointer"
-                data-bs-dismiss="toast"
-                aria-label="Close"
-              ></i>
-            </div>
-            <hr class="horizontal light m-0" />
-            <div class="toast-body text-white">
-              Hello, world! This is a notification message.
-            </div>
-          </div>
-          <div
-            class="toast fade hide p-2 mt-2 bg-white"
-            role="alert"
-            aria-live="assertive"
-            id="warningToast"
-            aria-atomic="true"
-          >
-            <div class="toast-header border-0">
-              <i class="material-symbols-rounded text-warning me-2">
-                travel_explore
-              </i>
-              <span class="me-auto font-weight-bold">Material Dashboard </span>
-              <small class="text-body">11 mins ago</small>
-              <i
-                class="fas fa-times text-md ms-3 cursor-pointer"
-                data-bs-dismiss="toast"
-                aria-label="Close"
-              ></i>
-            </div>
-            <hr class="horizontal dark m-0" />
-            <div class="toast-body">
-              Hello, world! This is a notification message.
-            </div>
-          </div>
-          <div
-            class="toast fade hide p-2 mt-2 bg-white"
-            role="alert"
-            aria-live="assertive"
-            id="dangerToast"
-            aria-atomic="true"
-          >
-            <div class="toast-header border-0">
-              <i class="material-symbols-rounded text-danger me-2">
-                campaign
-              </i>
-              <span class="me-auto text-gradient text-danger font-weight-bold"
-                >Material Dashboard
-              </span>
-              <small class="text-body">11 mins ago</small>
-              <i
-                class="fas fa-times text-md ms-3 cursor-pointer"
-                data-bs-dismiss="toast"
-                aria-label="Close"
-              ></i>
-            </div>
-            <hr class="horizontal dark m-0" />
-            <div class="toast-body">
-              Hello, world! This is a notification message.
+        <div class="row mb-4">
+          <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+            <div class="card">
+              
+                <div class="row">
+                  <div class="col-lg-6 col-5 my-auto text-end">
+                    <div class="dropdown float-lg-end pe-4">
+                      <a
+                        class="cursor-pointer"
+                        id="dropdownTable"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i class="fa fa-ellipsis-v text-secondary"></i>
+                      </a>
+                      <ul
+                        class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
+                        aria-labelledby="dropdownTable"
+                      >
+                        <li>
+                          <a
+                            class="dropdown-item border-radius-md"
+                            href="javascript:;"
+                            >Action</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item border-radius-md"
+                            href="javascript:;"
+                            >Another action</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item border-radius-md"
+                            href="javascript:;"
+                            >Something else here</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -666,8 +576,7 @@
                     href="https://www.creative-tim.com"
                     class="font-weight-bold"
                     target="_blank"
-                    >Sapphire Hotel</a
-                  >
+                    >Sapphire Hotel</a>
                 </div>
               </div>
               <div class="col-lg-6">
@@ -836,6 +745,266 @@
     <script src="../assets/js/core/bootstrap.min.js"></script>
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/chartjs.min.js"></script>
+    <script>
+      var ctx = document.getElementById("chart-bars").getContext("2d");
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["M", "T", "W", "T", "F", "S", "S"],
+          datasets: [
+            {
+              label: "Views",
+              tension: 0.4,
+              borderWidth: 0,
+              borderRadius: 4,
+              borderSkipped: false,
+              backgroundColor: "#43A047",
+              data: [50, 45, 22, 28, 50, 60, 76],
+              barThickness: "flex",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+          interaction: {
+            intersect: false,
+            mode: "index",
+          },
+          scales: {
+            y: {
+              grid: {
+                drawBorder: false,
+                display: true,
+                drawOnChartArea: true,
+                drawTicks: false,
+                borderDash: [5, 5],
+                color: "#e5e5e5",
+              },
+              ticks: {
+                suggestedMin: 0,
+                suggestedMax: 500,
+                beginAtZero: true,
+                padding: 10,
+                font: {
+                  size: 14,
+                  lineHeight: 2,
+                },
+                color: "#737373",
+              },
+            },
+            x: {
+              grid: {
+                drawBorder: false,
+                display: false,
+                drawOnChartArea: false,
+                drawTicks: false,
+                borderDash: [5, 5],
+              },
+              ticks: {
+                display: true,
+                color: "#737373",
+                padding: 10,
+                font: {
+                  size: 14,
+                  lineHeight: 2,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+      new Chart(ctx2, {
+        type: "line",
+        data: {
+          labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+          datasets: [
+            {
+              label: "Sales",
+              tension: 0,
+              borderWidth: 2,
+              pointRadius: 3,
+              pointBackgroundColor: "#43A047",
+              pointBorderColor: "transparent",
+              borderColor: "#43A047",
+              backgroundColor: "transparent",
+              fill: true,
+              data: [120, 230, 130, 440, 250, 360, 270, 180, 90, 300, 310, 220],
+              maxBarThickness: 6,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              callbacks: {
+                title: function (context) {
+                  const fullMonths = [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                  ];
+                  return fullMonths[context[0].dataIndex];
+                },
+              },
+            },
+          },
+          interaction: {
+            intersect: false,
+            mode: "index",
+          },
+          scales: {
+            y: {
+              grid: {
+                drawBorder: false,
+                display: true,
+                drawOnChartArea: true,
+                drawTicks: false,
+                borderDash: [4, 4],
+                color: "#e5e5e5",
+              },
+              ticks: {
+                display: true,
+                color: "#737373",
+                padding: 10,
+                font: {
+                  size: 12,
+                  lineHeight: 2,
+                },
+              },
+            },
+            x: {
+              grid: {
+                drawBorder: false,
+                display: false,
+                drawOnChartArea: false,
+                drawTicks: false,
+                borderDash: [5, 5],
+              },
+              ticks: {
+                display: true,
+                color: "#737373",
+                padding: 10,
+                font: {
+                  size: 12,
+                  lineHeight: 2,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+      new Chart(ctx3, {
+        type: "line",
+        data: {
+          labels: [
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+          datasets: [
+            {
+              label: "Tasks",
+              tension: 0,
+              borderWidth: 2,
+              pointRadius: 3,
+              pointBackgroundColor: "#43A047",
+              pointBorderColor: "transparent",
+              borderColor: "#43A047",
+              backgroundColor: "transparent",
+              fill: true,
+              data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+              maxBarThickness: 6,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+          interaction: {
+            intersect: false,
+            mode: "index",
+          },
+          scales: {
+            y: {
+              grid: {
+                drawBorder: false,
+                display: true,
+                drawOnChartArea: true,
+                drawTicks: false,
+                borderDash: [4, 4],
+                color: "#e5e5e5",
+              },
+              ticks: {
+                display: true,
+                padding: 10,
+                color: "#737373",
+                font: {
+                  size: 14,
+                  lineHeight: 2,
+                },
+              },
+            },
+            x: {
+              grid: {
+                drawBorder: false,
+                display: false,
+                drawOnChartArea: false,
+                drawTicks: false,
+                borderDash: [4, 4],
+              },
+              ticks: {
+                display: true,
+                color: "#737373",
+                padding: 10,
+                font: {
+                  size: 14,
+                  lineHeight: 2,
+                },
+              },
+            },
+          },
+        },
+      });
+    </script>
     <script>
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {

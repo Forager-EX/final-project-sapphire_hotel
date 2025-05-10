@@ -38,7 +38,10 @@
             <a href="contact.php" class="navbar__links">Contact</a>
           </li>
           <li class="navbar__item">
-            <a href="booking.php" class="navbar__links">Profile</a>
+            <a href="profile.php" class="navbar__links">Profile</a>
+          </li>
+          <li class="navbar__btn">
+            <a href="login.php" class="button">Login/Sign-up</a>
           </li>
           
         </ul>
@@ -46,48 +49,32 @@
     </nav>
 
     <!-- Hero Section -->
-    <<div class="main" style="background-image: url('img/hotel.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 100vh; display: flex; align-items: center; justify-content: center; color: white;">
-
-      <div class="main__container">
-        <div class="main__content">
-          <h1><b>SAPPHIRE HOTEL</b></h1>
-          <h3>Your Gateway to Relaxation and Elegance</h3>
-          <button class="main_btn"><a href="booking.php">Book Now</a></button>
-        </div>
-      </div>
+<div class="main" style="background-image: url('img/hotel.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 100vh; display: flex; align-items: center; justify-content: center; color: white;">
+  <div class="main__container">
+    <div class="main__content">
+      <h1><b>SAPPHIRE HOTEL</b></h1>
+      <h3>Your Gateway to Relaxation and Elegance</h3>
+      <button class="main_btn"><a href="booking.php">Book Now</a></button>
     </div>
-
+  </div>
+</div>
     <!-- About Section -->
-    <section id="about" class="about section light-background">
-      <div class="container">
-        <div class="row align-items-center justify-content-center">
-          <!-- Left Column: Text Content -->
-          <div class="col-lg-6 text-center">
-            <h2>About Sapphire Hotel</h2> 
-            <p>
-              Welcome to Sapphire Hotel, where luxury meets elegance. Our hotel
-              is dedicated to providing you with an unforgettable stay. Located
-              in the heart of the city, we offer comfortable rooms, exceptional
-              service, and stunning views.
-            </p>
-            <p>
-              Experience the warmth and hospitality of our team as we cater to
-              your every need. Whether you're here for business or leisure,
-              Sapphire Hotel promises a memorable experience.
-            </p>
-          </div>
-          <!-- Right Column: Image -->
-          <div class="col-lg-6 text-center">
-            <img
-              src="img/about.jpg"
-              alt="About Us Image"
-              style="max-width: 500px; height: auto"
-              class="about-img img-fluid"
-            />
-          </div>
-        </div>
-      </div>
-    </section> 
+<section class="about">
+  <div class="container">
+    <h2>About Sapphire Hotel</h2>
+
+    <ul class="amenities-list">
+      <li  style="font-size: 20px;">🌟 Premium rooms designed for comfort and relaxation</li>
+      <li  style="font-size: 20px;">🍽️ Gourmet dining with local and international cuisine</li>
+      <li  style="font-size: 20px;">🌊 Breathtaking views from our rooftop infinity pool</li>
+      <li  style="font-size: 20px;">💼 Modern facilities perfect for business travelers</li>
+    </ul>
+    
+    <p style="font-size: 20px;" >Welcome to Sapphire Hotel, where luxury meets elegance. Our hotel is dedicated to providing you with an unforgettable stay. Located in the heart of the city, we offer comfortable rooms, exceptional service, and stunning views.</p>
+    <p style="font-size: 20px;" >Experience the warmth and hospitality of our team as we cater to your every need. Whether you're here for business or leisure, Sapphire Hotel promises a memorable experience.</p>
+    <img src="img/about.jpg" alt="Sapphire Hotel Reception" class="about-image">
+  </div>
+</section>
 
     <!-- Footer Section -->
     <footer class="footer">

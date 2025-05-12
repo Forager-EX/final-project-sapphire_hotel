@@ -127,3 +127,25 @@ document.addEventListener("DOMContentLoaded", function () {
     alert("Payment successful! Your booking has been confirmed.");
   });
 });
+
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    // Add any client-side validation here
+    if (!validateForm()) {
+        e.preventDefault(); // Stop form submission if validation fails
+    }
+});
+
+// Alternative AJAX approach
+document.getElementById('confirmButton').addEventListener('click', function() {
+    const formData = new FormData(document.getElementById('bookingForm'));
+    
+    fetch('', { // Empty string means submit to same URL
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
+    });
+});

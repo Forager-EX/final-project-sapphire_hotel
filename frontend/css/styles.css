@@ -395,3 +395,41 @@ body {
     margin-right: 0;
   }
 }
+
+.notification-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+/* Add these styles to your booking.css */
+.booking-summary .card {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.booking-summary .card-header {
+    padding: 1.5rem;
+}
+
+.booking-summary .list-group-item {
+    padding: 1rem 1.25rem;
+}
+
+.booking-summary .badge {
+    font-size: 0.9rem;
+    padding: 0.35em 0.65em;
+}

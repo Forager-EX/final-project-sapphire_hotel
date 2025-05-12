@@ -1,59 +1,73 @@
 <?php
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $host = "localhost";
 $user = "root";
 $password = "";
 $db = "sapphire_hotel";
 
-// Create connection
 $conn = new mysqli($host, $user, $password, $db);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    session_start();
-
-    // Check if user is logged in
     if (!isset($_SESSION['user_id'])) {
         die("User not logged in. Please log in to proceed with booking.");
     }
     
-    $user_id = intval($_SESSION['user_id']);  // Get the user ID from session
+    $user_id = intval($_SESSION['user_id']);
+    $full_name = $conn->real_escape_string($_POST['full_name'] ?? '');
+    $check_in = $conn->real_escape_string($_POST['check_in'] ?? '');
+    $check_out = $conn->real_escape_string($_POST['check_out'] ?? '');
+    $guest_num = intval($_POST['guest_num'] ?? 0);
+    $room_type = $conn->real_escape_string($_POST['room_type'] ?? '');
 
-    // Validate form inputs
-    $full_name = isset($_POST['full_name']) ? $_POST['full_name'] : null;
-    $check_in = isset($_POST['check_in']) ? $_POST['check_in'] : null;
-    $check_out = isset($_POST['check_out']) ? $_POST['check_out'] : null;
-    $guest_num = isset($_POST['guest_num']) ? intval($_POST['guest_num']) : 0;
-    $room_type = isset($_POST['room_type']) ? $_POST['room_type'] : null;
-
-    // Check if required fields are provided
-    if (!$check_in || !$check_out || !$guest_num || !$room_type) {
+    // Validation
+    if (empty($check_in) || empty($check_out) || $guest_num <= 0 || empty($room_type)) {
         die("All fields are required. Please fill in all fields to proceed.");
     }
 
-    // Check if the check-in date is before the check-out date
     if ($check_in >= $check_out) {
         die("Check-out date must be after check-in date.");
     }
+
     $status = 'Pending';
-    $stmt = $conn->prepare("INSERT INTO booking (full_name, user_id, check_in, check_out, status, guest_num, room_type) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sisssis", $full_name, $user_id, $check_in, $check_out, $status, $guest_num, $room_type);
     
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Booking successful!');</script>";
-    } else {
-        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+    // Debug SQL
+    $sql = "INSERT INTO booking (full_name, user_id, check_in, check_out, status, guest_num, room_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt === false) {
+        die("Prepare failed: " . $conn->error);
     }
-
-    $stmt->close();
-    $conn->close();
+    
+    if (!$stmt->bind_param("sisssis", $full_name, $user_id, $check_in, $check_out, $status, $guest_num, $room_type)) {
+        die("Bind failed: " . $stmt->error);
+    }
+    
+    if ($stmt->execute()) {
+        $booking_id = $conn->insert_id;
+        $_SESSION['last_booking'] = [
+            'id' => $booking_id,
+            'full_name' => $full_name,
+            'check_in' => $check_in,
+            'check_out' => $check_out,
+            'guest_num' => $guest_num,
+            'room_type' => $room_type,
+            'status' => $status
+        ];
+        header("Location: booking_summary.php");
+        exit();
+    } else {
+        die("Execute failed: " . $stmt->error);
+    }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

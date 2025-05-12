@@ -16,6 +16,8 @@ if ($conn->connect_error) {
 }
 
 $user_id = $_SESSION['user_id'];
+
+// Fetch user data
 $stmt = $conn->prepare("SELECT name, email FROM user WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -26,8 +28,30 @@ if ($result->num_rows === 1) {
 } else {
     die("User not found.");
 }
-
 $stmt->close();
+
+// Fetch bookings (if you have this functionality)
+$bookings = [];
+$booking_stmt = $conn->prepare("SELECT * FROM bookings WHERE user_id = ? ORDER BY check_in DESC LIMIT 3");
+if ($booking_stmt) {
+    $booking_stmt->bind_param("i", $user_id);
+    $booking_stmt->execute();
+    $booking_result = $booking_stmt->get_result();
+    $bookings = $booking_result->fetch_all(MYSQLI_ASSOC);
+    $booking_stmt->close();
+}
+
+// Fetch notifications
+$notifications = [];
+$notification_stmt = $conn->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 5");
+if ($notification_stmt) {
+    $notification_stmt->bind_param("i", $user_id);
+    $notification_stmt->execute();
+    $notification_result = $notification_stmt->get_result();
+    $notifications = $notification_result->fetch_all(MYSQLI_ASSOC);
+    $notification_stmt->close();
+}
+
 $conn->close();
 ?>
 
@@ -368,6 +392,36 @@ $conn->close();
         </div>
       </div>
     </div>
+
+    <h2 class="section-title">Notifications</h2>
+<div class="profile-card" style="padding: 1.5rem;">
+  <?php if (!empty($notifications)) : ?>
+    <div class="notification-list">
+      <?php foreach ($notifications as $notification) : ?>
+        <div class="notification-item" style="padding: 1rem; border-bottom: 1px solid #eee; display: flex; align-items: flex-start;">
+          <div style="margin-right: 1rem; color: <?= $notification['type'] === 'booking' ? '#0d47a1' : '#ef5350' ?>;">
+            <i class="bi bi-<?= $notification['type'] === 'booking' ? 'calendar-check' : 'bell' ?>" style="font-size: 1.5rem;"></i>
+          </div>
+          <div>
+            <p style="margin: 0; font-weight: 500;"><?= htmlspecialchars($notification['title']) ?></p>
+            <p style="margin: 0.3rem 0 0; color: var(--light-text); font-size: 0.9rem;">
+              <?= htmlspecialchars($notification['message']) ?>
+            </p>
+            <p style="margin: 0.3rem 0 0; color: var(--light-text); font-size: 0.8rem;">
+              <?= date('M j, Y g:i A', strtotime($notification['created_at'])) ?>
+            </p>
+          </div>
+        </div>
+      <?php endforeach; ?>
+
+    </div>
+  <?php else : ?>
+    <div style="text-align: center; padding: 1.5rem;">
+      <i class="bi bi-bell" style="font-size: 2rem; color: #cfd8dc;"></i>
+      <p style="color: var(--light-text); margin-top: 0.5rem;">No notifications yet</p>
+    </div>
+  <?php endif; ?>
+</div>
     
     <h2 class="section-title">Recent Bookings</h2>
     

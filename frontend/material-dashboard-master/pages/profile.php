@@ -89,7 +89,7 @@ $conn->close();
           href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
           target="_blank"
         >
-          <img <<<<<<< HEAD src="../assets/img/logos/sh icon.png" =======
+          <img HEAD src="../assets/img/logos/sh icon.png"
           src="../assets/img/logo.jpg" class="navbar-brand-img" width="26"
           height="26" alt="main_logo" />
           <span class="ms-1 text-sm text-dark">Sapphire Hotel</span>

@@ -278,7 +278,7 @@ body {
     width: 100%;
     background: #58aaf1;
     z-index: 99;
-    padding: 20px;
+    padding: 20px;  
   }
 
   .navbar__menu.active .navbar__links {

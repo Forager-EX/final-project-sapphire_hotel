@@ -400,16 +400,20 @@ $conn->close();
         </div>
       <?php endforeach; ?>
     <?php else : ?>
-      <div class="no-bookings">
-        <i class="bi bi-calendar-x"></i>
-        <h3>No Bookings Yet</h3>
-        <p>You haven't made any reservations with us. Start exploring our rooms!</p>
-        <a href="rooms.php" class="btn-edit" style="margin-top: 1rem;">Browse Rooms</a>
-      </div>
+  <div style="text-align: center; margin: 2rem 0;">
+    <i class="bi bi-calendar-x" style="font-size: 2rem; color: #cfd8dc; margin-bottom: 1rem;"></i>
+    <h3 style="color: var(--text-color); margin-bottom: 0.5rem;">No Bookings Yet</h3>
+    <p style="color: var(--light-text); margin-bottom: 1.5rem;">
+      You haven't made any reservations with us. Start exploring our rooms!
+    </p>
+    <a href="rooms.php" style="color: var(--primary-color); text-decoration: underline; font-weight: 500;">
+      Browse Rooms
+    </a>
+  </div>
     <?php endif; ?>
     
     <div class="action-buttons">
-      <a href="edit-profile.php" class="btn-edit">Edit Profile</a>
+      <a href="edit_pfp.php" class="btn-edit">Edit Profile</a>
       <a href="logout.php" class="btn-logout">Logout</a>
     </div>
   </div>

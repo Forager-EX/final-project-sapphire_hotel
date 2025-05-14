@@ -51,7 +51,7 @@ include("../session.php");
             <a href="profile.php" class="navbar__links">Profile</a>
           </li>
           <li class="navbar__btn">
-            <a href="login.php" class="button">Login/Sign-up</a>
+            <a href="logout.php" class="button">Log out</a>
           </li>
         </ul>
       </div>

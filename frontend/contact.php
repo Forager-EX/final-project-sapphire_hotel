@@ -47,7 +47,7 @@ include("../session.php");
             <a href="profile.php" class="navbar__links">Profile</a>
           </li>
           <li class="navbar__btn">
-            <a href="login.php" class="button">Login/Sign-up</a>
+            <a href="logout.php" class="button">Log out</a>
           </li>
         </ul>
       </div>
@@ -66,7 +66,8 @@ include("../session.php");
         <div class="info-item d-flex flex-column justify-content-center align-items-center">
           <i class="bi bi-geo-alt info-icon"></i>
           <h3>Address</h3>
-          <p>A108 Adam Street, Naga City, NC 535022</p>
+          <p>Magsaysay Ave. Naga, Camarines Sur
+</p>
           <!-- Google Maps Embed -->
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.467508888889!2d123.516987!3d13.756321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a88c9b8e2f80eb%3A0x9d28000000000000!2sNaga%20City%2C%20CamSur%2C%20Philippines!5e0!3m2!1sen!2sus!4v1692547200000!5m2!1s2!2s0x33a88c9b8e2f80eb%3A0x9d28000000000000"

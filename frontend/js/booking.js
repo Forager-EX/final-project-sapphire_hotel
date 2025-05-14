@@ -42,7 +42,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkInDate = document.getElementById("checkInDate").value;
     const checkOutDate = document.getElementById("checkOutDate").value;
     const roomType = document.getElementById("roomType").value;
-    const numberOfGuests = document.getElementById("numberOfGuests").value;
+    const guestInput = document.getElementById('numberOfGuests');
+  const guestLimitNote = document.getElementById('guestLimitNote');
+
+  roomTypeSelect.addEventListener('change', function () {
+    let maxGuests = 1;
+    let note = '';
+
+    switch (this.value) {
+      case 'standard':
+        maxGuests = 1;
+        note = 'Standard room allows only 1 guest.';
+        break;
+      case 'deluxe':
+        maxGuests = 2;
+        note = 'Deluxe room allows up to 2 guests.';
+        break;
+      case 'exclusive':
+        maxGuests = 4;
+        note = 'Exclusive Suite allows up to 4 guests.';
+        break;
+    }
+
+    guestInput.value = '';
+    guestInput.setAttribute('max', maxGuests);
+    guestInput.setAttribute('min', 1);
+    guestLimitNote.textContent = note;
+  });
 
     if (!checkInDate || !checkOutDate || !roomType || !numberOfGuests) {
       document.getElementById("summaryRoomType").innerHTML = "";

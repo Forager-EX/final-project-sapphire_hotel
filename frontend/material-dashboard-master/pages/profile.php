@@ -1,36 +1,47 @@
 <?php
 session_start();
+
+// Redirect if not logged in
 if (!isset($_SESSION['admin_id'])) {
     header("Location: admin_login.php");
     exit;
 }
 
+// Database credentials
 $host = "localhost";
 $user = "root";
 $password = "";
 $db = "sapphire_hotel";
 
+// Create connection
 $conn = new mysqli($host, $user, $password, $db);
+
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Get admin_id from session
 $admin_id = $_SESSION['admin_id'];
-$stmt = $conn->prepare("SELECT name FROM admin WHERE admin_id = ?");
+
+// Fetch admin name and email
+$stmt = $conn->prepare("SELECT name, email FROM admin WHERE admin_id = ?");
 $stmt->bind_param("i", $admin_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+// Store user data
 if ($result->num_rows === 1) {
     $userData = $result->fetch_assoc();
 } else {
     die("User not found.");
 }
 
+// Close connection
 $stmt->close();
 $conn->close();
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -86,7 +97,6 @@ $conn->close();
         ></i>
         <a
           class="navbar-brand px-4 py-3 m-0"
-          href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
           target="_blank"
         >
           <img HEAD src="../assets/img/logos/sh icon.png"
@@ -111,9 +121,9 @@ $conn->close();
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/billing.php">
+            <a class="nav-link text-dark" href="../pages/bookings.php">
               <i class="material-symbols-rounded opacity-5">receipt_long</i>
-              <span class="nav-link-text ms-1">Billing</span>
+              <span class="nav-link-text ms-1">Bookings</span>
             </a>
           </li>
           <li class="nav-item">
@@ -139,10 +149,10 @@ $conn->close();
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/sign-in.php">
-              <i class="material-symbols-rounded opacity-5">login</i>
-              <span class="nav-link-text ms-1">Sign In</span>
-            </a>
+          <a class="nav-link text-dark" href="logout.php">
+            <i class="material-symbols-rounded opacity-5">logout</i>
+            <span class="nav-link-text ms-1">Log out</span>
+          </a>
           </li>
         </ul>
       </div>
@@ -213,123 +223,6 @@ $conn->close();
                 >
                   <i class="material-symbols-rounded">notifications</i>
                 </a>
-                <ul
-                  class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/team-2.jpg"
-                            class="avatar avatar-sm me-3"
-                          />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New message</span>
-                            from Laur
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            13 minutes ago
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/small-logos/logo-spotify.svg"
-                            class="avatar avatar-sm bg-gradient-dark me-3"
-                          />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New album</span> by
-                            Travis Scott
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            1 day
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div
-                          class="avatar avatar-sm bg-gradient-secondary me-3 my-auto"
-                        >
-                          <svg
-                            width="12px"
-                            height="12px"
-                            viewBox="0 0 43 36"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                          >
-                            <title>credit-card</title>
-                            <g
-                              stroke="none"
-                              stroke-width="1"
-                              fill="none"
-                              fill-rule="evenodd"
-                            >
-                              <g
-                                transform="translate(-2169.000000, -745.000000)"
-                                fill="#FFFFFF"
-                                fill-rule="nonzero"
-                              >
-                                <g
-                                  transform="translate(1716.000000, 291.000000)"
-                                >
-                                  <g
-                                    transform="translate(453.000000, 454.000000)"
-                                  >
-                                    <path
-                                      class="color-background"
-                                      d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                      opacity="0.593633743"
-                                    ></path>
-                                    <path
-                                      class="color-background"
-                                      d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
-                                    ></path>
-                                  </g>
-                                </g>
-                              </g>
-                            </g>
-                          </svg>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            Payment successfully completed
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            2 days
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
               </li>
               <li class="nav-item d-flex align-items-center">
                 <a
@@ -358,7 +251,7 @@ $conn->close();
             <div class="col-auto">
               <div class="avatar avatar-xl position-relative">
                 <img
-                  src="../assets/img/bruce-mars.jpg"
+                  src="../assets/img/profile.jpg"
                   alt="profile_image"
                   class="w-100 border-radius-lg shadow-sm"
                 />
@@ -366,7 +259,9 @@ $conn->close();
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
-                <p> <span id="name"><?php echo htmlspecialchars($userData['name']); ?></span></p>
+                <p class="h6 text-dark">
+                <span id="name"><?php echo htmlspecialchars($userData['name']); ?></span>
+              </p>
                 <p class="mb-0 font-weight-normal text-sm">Admin</p>
               </div>
             </div>
@@ -504,10 +399,7 @@ $conn->close();
                   </div>
                   <div class="card-body p-3">
                     <p class="text-sm">
-                      Hi, I’m Alec Thompson, Decisions: If you can’t decide, the
-                      answer is no. If two equally difficult paths, choose the
-                      one more painful in the short term (pain avoidance is
-                      creating an illusion of equality).
+                      Administrator overseeing reservations, guest management, and system operations for Sapphire Hotel, ensuring seamless booking experiences and operational efficiency.
                     </p>
                     <hr class="horizontal gray-light my-4" />
                     <ul class="list-group">
@@ -516,18 +408,12 @@ $conn->close();
                         <p> <span id="name"><?php echo htmlspecialchars($userData['name']); ?></span></p>
                       </li>
                       <li class="list-group-item border-0 ps-0 text-sm">
-                        <strong class="text-dark">Mobile:</strong> &nbsp;
-                        <p><span id="mobile">
-<?php echo isset($userData['mobile']) ? htmlspecialchars($userData['mobile']) : 'Not available'; ?>
-</span></p>
+                        <strong class="text-dark">Email:</strong>
+                        <span id="email"><?php echo htmlspecialchars($userData['email'] ?? 'N/A'); ?></span>
+                      </li>
 
-                      </li>
                       <li class="list-group-item border-0 ps-0 text-sm">
-                        <strong class="text-dark">Email:</strong> &nbsp;
-                        <p> <span id="email"><?php echo htmlspecialchars($userData['email']); ?></span></p>
-                      </li>
-                      <li class="list-group-item border-0 ps-0 text-sm">
-                        <strong class="text-dark">Location:</strong> &nbsp; USA
+                        <strong class="text-dark">Location:</strong> &nbsp; Philippines
                       </li>
                       <li class="list-group-item border-0 ps-0 pb-0">
                         <strong class="text-dark text-sm">Social:</strong>
@@ -572,7 +458,7 @@ $conn->close();
                 </script>
                 , made <i class="fa fa-heart"></i> by
                 <a
-                  href="https://www.creative-tim.com"
+            
                   class="font-weight-bold"
                   target="_blank"
                   >Sapphire Hotel</a
@@ -585,7 +471,6 @@ $conn->close();
               >
                 <li class="nav-item">
                   <a
-                    href="https://www.creative-tim.com"
                     class="nav-link text-muted"
                     target="_blank"
                     >Sapphire Hotel</a
@@ -593,7 +478,6 @@ $conn->close();
                 </li>
                 <li class="nav-item">
                   <a
-                    href="https://www.creative-tim.com/presentation"
                     class="nav-link text-muted"
                     target="_blank"
                     >About Us</a
@@ -601,7 +485,6 @@ $conn->close();
                 </li>
                 <li class="nav-item">
                   <a
-                    href="https://www.creative-tim.com/blog"
                     class="nav-link text-muted"
                     target="_blank"
                     >Blog</a
@@ -609,7 +492,6 @@ $conn->close();
                 </li>
                 <li class="nav-item">
                   <a
-                    href="https://www.creative-tim.com/license"
                     class="nav-link pe-0 text-muted"
                     target="_blank"
                     >License</a

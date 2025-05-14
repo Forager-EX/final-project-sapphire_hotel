@@ -41,7 +41,7 @@
             <a href="profile.php" class="navbar__links">Profile</a>
           </li>
           <li class="navbar__btn">
-            <a href="login.php" class="button">Login/Sign-up</a>
+            <a href="logout.php" class="button">Log out</a>
           </li>
           
         </ul>
@@ -59,22 +59,63 @@
   </div>
 </div>
     <!-- About Section -->
-<section class="about">
-  <div class="container">
-    <h2>About Sapphire Hotel</h2>
+<section class="about" style="padding: 60px 20px; background-color: #f9fcff;">
+  <div class="container" style="max-width: 1200px; margin: auto;">
 
-    <ul class="amenities-list">
-      <li  style="font-size: 20px;">🌟 Premium rooms designed for comfort and relaxation</li>
-      <li  style="font-size: 20px;">🍽️ Gourmet dining with local and international cuisine</li>
-      <li  style="font-size: 20px;">🌊 Breathtaking views from our rooftop infinity pool</li>
-      <li  style="font-size: 20px;">💼 Modern facilities perfect for business travelers</li>
+  
+
+    <!-- Flex container for light blue info cards -->
+    <div style="
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    ">
+      
+      <!-- Amenities Card -->
+      <div style="display: flex; justify-content: center;">
+  <div style="
+    background-color: rgb(244, 247, 249);
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    font-size: 22px;
+    line-height: 1.8;
+    width: 100%;
+    max-width: 600px;
+  " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      <li>🌟 Premium rooms designed for comfort and relaxation</li>
+      <li>🍽️ Gourmet dining with local and international cuisine</li>
+      <li>🌊 Rooftop infinity pool with breathtaking views</li>
+      <li>💼 Modern business facilities for working professionals</li>
     </ul>
-    
-    <p style="font-size: 20px;" >Welcome to Sapphire Hotel, where luxury meets elegance. Our hotel is dedicated to providing you with an unforgettable stay. Located in the heart of the city, we offer comfortable rooms, exceptional service, and stunning views.</p>
-    <p style="font-size: 20px;" >Experience the warmth and hospitality of our team as we cater to your every need. Whether you're here for business or leisure, Sapphire Hotel promises a memorable experience.</p>
-    <img src="img/about.jpg" alt="Sapphire Hotel Reception" class="about-image">
+  </div>
+</div>
+
+
+      <!-- Welcome Message Card -->
+      <div style="
+        background-color:rgb(249, 249, 250);
+        padding: 35px;
+        border-radius: 16px;
+        flex: 1 1 45%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        font-size: 22px;
+        line-height: 1.8;
+      " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+        <p>
+          Welcome to <strong>Sapphire Hotel</strong>, where luxury meets elegance. Located in the heart of the city, we offer stunning views, exceptional service, and elegant rooms tailored for your comfort.
+        </p>
+      </div>
+
+    </div>
   </div>
 </section>
+
+
 
     <!-- Footer Section -->
     <footer class="footer">

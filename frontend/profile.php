@@ -31,13 +31,13 @@ if ($result->num_rows === 1) {
 $stmt->close();
 
 // Fetch bookings (if you have this functionality)
-$bookings = [];
-$booking_stmt = $conn->prepare("SELECT * FROM bookings WHERE user_id = ? ORDER BY check_in DESC LIMIT 3");
+$booking = [];
+$booking_stmt = $conn->prepare("SELECT * FROM booking WHERE user_id = ? ORDER BY check_in DESC LIMIT 3");
 if ($booking_stmt) {
     $booking_stmt->bind_param("i", $user_id);
     $booking_stmt->execute();
     $booking_result = $booking_stmt->get_result();
-    $bookings = $booking_result->fetch_all(MYSQLI_ASSOC);
+    $booking = $booking_result->fetch_all(MYSQLI_ASSOC);
     $booking_stmt->close();
 }
 
@@ -98,15 +98,26 @@ $conn->close();
       flex-direction: column;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
       overflow: hidden;
     }
-    
     .profile-banner {
-      height: 120px;
-      background: linear-gradient(135deg, var(--primary-color), #1976d2);
-      position: relative;
+     position: relative;
+     height: 150px; /* or whatever height you need */
+     width: 1,000px;
+   background-color:rgb(27, 27, 115); /* optional background */
     }
+
+    .profile-avatar {
+     position: absolute;
+    top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4rem; /* adjust icon size */
+      color: #333; /* optional color */
+    }
+
+  
     
     .profile-avatar {
       width: 120px;
@@ -130,6 +141,9 @@ $conn->close();
     }
     
     .profile-content {
+      color: #333; /* sets the text color */
+       background-color:rgb(27, 27, 115); /* optional background */
+       border-radius: 0.75rem; /* optional rounded corners */
       padding: 80px 30px 30px;
       text-align: center;
     }
@@ -138,14 +152,15 @@ $conn->close();
       font-size: 1.8rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
-      color: var(--text-color);
+      color: white; /* changed to white */
     }
-    
+
     .profile-email {
-      color: var(--light-text);
+      color: white; /* changed to white */
       margin-bottom: 1.5rem;
       font-size: 1rem;
     }
+
     
     .profile-details {
       display: flex;
@@ -281,7 +296,7 @@ $conn->close();
       color: white;
     }
     
-    .no-bookings {
+    .no-bookingS {
       text-align: center;
       padding: 2rem;
       color: var(--light-text);
@@ -290,10 +305,26 @@ $conn->close();
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
     
-    .no-bookings i {
+    .no-bookingS i {
       font-size: 2rem;
       margin-bottom: 1rem;
       color: #cfd8dc;
+      
+      .profile-banner {
+  position: relative;
+  height: 150px; /* or whatever height you need */
+  background-color: #f0f0f0; /* optional background */
+}
+
+.profile-avatar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem; /* adjust icon size */
+  color: #333; /* optional color */
+}
+
     }
   </style>
 </head>
@@ -327,7 +358,7 @@ $conn->close();
           <a href="profile.php" class="navbar__links active">Profile</a>
         </li>
         <li class="navbar__btn">
-          <a href="login.php" class="button">Login/Sign-up</a>
+          <a href="logout.php" class="button">Log out</a>
         </li>
       </ul>
     </div>
@@ -340,10 +371,13 @@ $conn->close();
     </div>
     
     <div class="profile-card">
-      <div class="profile-banner"></div>
-      <div class="profile-avatar">
-        <i class="bi bi-person-circle"></i>
-      </div>
+  <div class="profile-banner">
+    <div class="profile-avatar">
+      <i class="bi bi-person-circle"></i>
+    </div>
+  </div>
+</div>
+
       
       <div class="profile-content">
         <h2 class="profile-name"><?= htmlspecialchars($userData['name']) ?></h2>
@@ -356,7 +390,7 @@ $conn->close();
           </div>
           <div class="detail-card">
             <h5>Total Bookings</h5>
-            <p><?= count($bookings ?? []) ?></p>
+            <p><?= count($booking ?? []) ?></p>
           </div>
           <div class="detail-card">
             <h5>Loyalty Points</h5>
@@ -366,104 +400,104 @@ $conn->close();
       </div>
     </div>
     
-    <h2 class="section-title">Account Information</h2>
-    <div class="profile-card" style="padding: 2rem;">
-      <div class="profile-details" style="justify-content: flex-start;">
-        <div class="detail-card" style="text-align: left; min-width: 250px;">
-          <h5>Full Name</h5>
-          <p><?= htmlspecialchars($userData['name']) ?></p>
-          
-          <h5 style="margin-top: 1.5rem;">Email Address</h5>
-          <p><?= htmlspecialchars($userData['email']) ?></p>
-          
-          <h5 style="margin-top: 1.5rem;">Phone Number</h5>
-          <p>+1 (555) 123-4567</p>
-        </div>
-        
-        <div class="detail-card" style="text-align: left; min-width: 250px;">
-          <h5>Account Type</h5>
-          <p>Standard Member</p>
-          
-          <h5 style="margin-top: 1.5rem;">Last Login</h5>
-          <p><?= date('M j, Y g:i A', strtotime('-3 hours')) ?></p>
-          
-          <h5 style="margin-top: 1.5rem;">Password</h5>
-          <p>••••••••••</p>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="section-title">Notifications</h2>
-<div class="profile-card" style="padding: 1.5rem;">
-  <?php if (!empty($notifications)) : ?>
-    <div class="notification-list">
-      <?php foreach ($notifications as $notification) : ?>
-        <div class="notification-item" style="padding: 1rem; border-bottom: 1px solid #eee; display: flex; align-items: flex-start;">
-          <div style="margin-right: 1rem; color: <?= $notification['type'] === 'booking' ? '#0d47a1' : '#ef5350' ?>;">
-            <i class="bi bi-<?= $notification['type'] === 'booking' ? 'calendar-check' : 'bell' ?>" style="font-size: 1.5rem;"></i>
-          </div>
-          <div>
-            <p style="margin: 0; font-weight: 500;"><?= htmlspecialchars($notification['title']) ?></p>
-            <p style="margin: 0.3rem 0 0; color: var(--light-text); font-size: 0.9rem;">
-              <?= htmlspecialchars($notification['message']) ?>
-            </p>
-            <p style="margin: 0.3rem 0 0; color: var(--light-text); font-size: 0.8rem;">
-              <?= date('M j, Y g:i A', strtotime($notification['created_at'])) ?>
-            </p>
-          </div>
-        </div>
-      <?php endforeach; ?>
-
-    </div>
-  <?php else : ?>
-    <div style="text-align: center; padding: 1.5rem;">
-      <i class="bi bi-bell" style="font-size: 2rem; color: #cfd8dc;"></i>
-      <p style="color: var(--light-text); margin-top: 0.5rem;">No notifications yet</p>
-    </div>
-  <?php endif; ?>
-</div>
-    
-    <h2 class="section-title">Recent Bookings</h2>
-    
-    <?php if (!empty($bookings)) : ?>
-      <?php foreach ($bookings as $booking) : ?>
-        <div class="booking-card">
-          <div class="booking-header">
-            <div class="booking-title"><?= htmlspecialchars($booking['room_type']) ?></div>
-            <div class="booking-status status-confirmed">Confirmed</div>
-          </div>
-          
-          <div class="booking-details">
-            <div class="booking-detail">
-              <strong>Check-In</strong>
-              <?= htmlspecialchars($booking['check_in']) ?>
-            </div>
-            <div class="booking-detail">
-              <strong>Check-Out</strong>
-              <?= htmlspecialchars($booking['check_out']) ?>
-            </div>
-            <div class="booking-detail">
-              <strong>Guests</strong>
-              2 Adults
-            </div>
-            <div class="booking-detail">
-              <strong>Total</strong>
-              $<?= number_format($booking['total_price'] ?? 350, 2) ?>
-            </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
-    <?php else : ?>
-  <div style="text-align: center; margin: 2rem 0;">
-    <i class="bi bi-calendar-x" style="font-size: 2rem; color: #cfd8dc; margin-bottom: 1rem;"></i>
-    <h3 style="color: var(--text-color); margin-bottom: 0.5rem;">No Bookings Yet</h3>
-    <p style="color: var(--light-text); margin-bottom: 1.5rem;">
-      You haven't made any reservations with us. Start exploring our rooms!
-    </p>
-    <a href="rooms.php" style="color: var(--primary-color); text-decoration: underline; font-weight: 500;">
-      Browse Rooms
-    </a>
   </div>
+    <h2 class="section-title">Account Information</h2>
+              <div class="profile-card" style="padding: 2rem;">
+                <div class="profile-details" style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+                  
+                  <!-- Full Name and Email -->
+                  <div class="detail-card" style="text-align: left; min-width: 250px; flex: 1;">
+                    <h5>Full Name</h5>
+                    <p><?= htmlspecialchars($userData['name']) ?></p>
+
+                    <h5 style="margin-top: 1.5rem;">Email Address</h5>
+                    <p><?= htmlspecialchars($userData['email']) ?></p>
+                  </div>
+
+                  <!-- Account Type and Last Login -->
+                  <div class="detail-card" style="text-align: left; min-width: 250px; flex: 1;">
+                    <h5>Account Type</h5>
+                    <p>Standard Member</p>
+
+                    <h5 style="margin-top: 1.5rem;">Last Login</h5>
+                    <p><?= date('M j, Y g:i A', strtotime('-3 hours')) ?></p>
+
+                    <h5 style="margin-top: 1.5rem;">Password</h5>
+                    <p>••••••••••</p>
+                  </div>
+
+                  <!-- Notifications -->
+                  <div class="detail-card" style="text-align: left; min-width: 250px; flex: 1;">
+                    <h5>Notifications</h5>
+                    <?php if (!empty($notifications)) : ?>
+                  <div class="notification-list">
+                    <?php foreach ($notifications as $notification) : ?>
+                      <div class="notification-item" style="padding: 1rem; border-bottom: 1px solid #eee; display: flex; align-items: flex-start;">
+                        <div style="margin-right: 1rem; color: <?= $notification['type'] === 'booking' ? '#0d47a1' : '#ef5350' ?>;">
+                          <i class="bi bi-<?= $notification['type'] === 'booking' ? 'calendar-check' : 'bell' ?>" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                          <p style="margin: 0; font-weight: 500;"><?= htmlspecialchars($notification['title']) ?></p>
+                          <p style="margin: 0.3rem 0 0; color: var(--light-text); font-size: 0.9rem;">
+                            <?= htmlspecialchars($notification['message']) ?>
+                          </p>
+                          <p style="margin: 0.3rem 0 0; color: var(--light-text); font-size: 0.8rem;">
+                            <?= date('M j, Y g:i A', strtotime($notification['created_at'])) ?>
+                          </p>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                    <?php else : ?>
+                  <div style="text-align: center; padding: 1.5rem;">
+                    <i class="bi bi-bell" style="font-size: 2rem; color: #cfd8dc;"></i>
+                    <p style="color: var(--light-text); margin-top: 0.5rem;">No notifications yet</p>
+                  </div>
+                <?php endif; ?>
+  </div>
+
+                </div>
+                <h2 class="section-title">Recent Bookings</h2>
+    
+              <?php if (!empty($booking)) : ?>
+                <?php foreach ($booking as $booking) : ?>
+                  <div class="booking-card">
+                    <div class="booking-header">
+                      <div class="booking-title"><?= htmlspecialchars($booking['room_type']) ?></div>
+                      <div class="booking-status status-confirmed">Confirmed</div>
+                    </div>
+                    
+                    <div class="booking-details">
+                      <div class="booking-detail">
+                        <strong>Check-In</strong>
+                        <?= htmlspecialchars($booking['check_in']) ?>
+                      </div>
+                      <div class="booking-detail">
+                        <strong>Check-Out</strong>
+                        <?= htmlspecialchars($booking['check_out']) ?>
+                      </div>
+                      <div class="booking-detail">
+                        <strong>Guests</strong>
+                        <?= htmlspecialchars($booking['guest_num']) ?>
+                      </div>
+                      <div class="booking-detail">
+                        <strong>Total</strong>
+                        ₱<?= number_format($booking['total_price'] ?? 350, 2) ?>
+                      </div>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+              <?php else : ?>
+            <div style="text-align: center; margin: 2rem 0;">
+              <i class="bi bi-calendar-x" style="font-size: 2rem; color: #cfd8dc; margin-bottom: 1rem;"></i>
+              <h3 style="color: var(--text-color); margin-bottom: 0.5rem;">No Bookings Yet</h3>
+              <p style="color: var(--light-text); margin-bottom: 1.5rem;">
+                You haven't made any reservations with us. Start exploring our rooms!
+              </p>
+              <a href="rooms.php" style="color: var(--primary-color); text-decoration: underline; font-weight: 500;">
+                Browse Rooms
+              </a>
+           </div>
     <?php endif; ?>
     
     <div class="action-buttons">

@@ -5,6 +5,37 @@ if (!isset($_SESSION['admin_id'])) {
     header("Location: ../../admin_log_in.php");
     exit();
 }
+
+// Database connection
+$servername = "localhost"; // Database server
+$username = "root"; // Database username
+$password = ""; // Database password (default for XAMPP)
+$dbname = "sapphire_hotel"; // Your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch notifications from the database
+$sql = "SELECT * FROM notifications";
+$result = $conn->query($sql);
+
+$notifications = [];
+
+if ($result->num_rows > 0) {
+    // Fetch notifications into an array
+    while($row = $result->fetch_assoc()) {
+        $notifications[] = $row;
+    }
+} else {
+    $notifications = [];
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +93,6 @@ if (!isset($_SESSION['admin_id'])) {
         ></i>
         <a
           class="navbar-brand px-4 py-3 m-0"
-          href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
           target="_blank"
         >
           <img
@@ -87,13 +117,13 @@ if (!isset($_SESSION['admin_id'])) {
           <li class="nav-item">
             <a class="nav-link text-dark" href="../pages/tables.php">
               <i class="material-symbols-rounded opacity-5">table_view</i>
-              <span class="nav-link-text ms-1">Tables</span>
+              <span class="nav-link-text ms-1">User Profiles</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/billing.php">
+            <a class="nav-link text-dark" href="../pages/bookings.php">
               <i class="material-symbols-rounded opacity-5">receipt_long</i>
-              <span class="nav-link-text ms-1">Billing</span>
+              <span class="nav-link-text ms-1">Bookings</span>
             </a>
           </li>
           <li class="nav-item">
@@ -119,11 +149,10 @@ if (!isset($_SESSION['admin_id'])) {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/sign-in.php">
-              <i class="material-symbols-rounded opacity-5">login</i>
-              <span class="nav-link-text ms-1">Sign In</span>
-            </a>
-          </li>
+          <a class="nav-link text-dark" href="../pages/logout.php">
+            <i class="material-symbols-rounded opacity-5">logout</i>
+            <span class="nav-link-text ms-1">Log out</span>
+          </a>
         </ul>
       </div>
     </aside>
@@ -195,127 +224,10 @@ if (!isset($_SESSION['admin_id'])) {
                 >
                   <i class="material-symbols-rounded">notifications</i>
                 </a>
-                <ul
-                  class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/team-2.jpg"
-                            class="avatar avatar-sm me-3"
-                          />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New message</span>
-                            from Laur
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            13 minutes ago
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/small-logos/logo-spotify.svg"
-                            class="avatar avatar-sm bg-gradient-dark me-3"
-                          />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New album</span> by
-                            Travis Scott
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            1 day
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div
-                          class="avatar avatar-sm bg-gradient-secondary me-3 my-auto"
-                        >
-                          <svg
-                            width="12px"
-                            height="12px"
-                            viewBox="0 0 43 36"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                          >
-                            <title>credit-card</title>
-                            <g
-                              stroke="none"
-                              stroke-width="1"
-                              fill="none"
-                              fill-rule="evenodd"
-                            >
-                              <g
-                                transform="translate(-2169.000000, -745.000000)"
-                                fill="#FFFFFF"
-                                fill-rule="nonzero"
-                              >
-                                <g
-                                  transform="translate(1716.000000, 291.000000)"
-                                >
-                                  <g
-                                    transform="translate(453.000000, 454.000000)"
-                                  >
-                                    <path
-                                      class="color-background"
-                                      d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                      opacity="0.593633743"
-                                    ></path>
-                                    <path
-                                      class="color-background"
-                                      d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
-                                    ></path>
-                                  </g>
-                                </g>
-                              </g>
-                            </g>
-                          </svg>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            Payment successfully completed
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            2 days
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
               </li>
               <li class="nav-item d-flex align-items-center">
                 <a
-                  href="../pages/sign-in.php"
+                  href="../pages/profile.php"
                   class="nav-link text-body font-weight-bold px-0"
                 >
                   <i class="material-symbols-rounded">account_circle</i>
@@ -333,215 +245,46 @@ if (!isset($_SESSION['admin_id'])) {
               <div class="card-header p-3">
                 <h5 class="mb-0">Alerts</h5>
               </div>
-              <div class="card-body p-3 pb-0">
-                <div
-                  class="alert alert-primary alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple primary alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-secondary alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple secondary alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-success alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple success alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-danger alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple danger alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-warning alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple warning alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-info alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple info alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-light alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple light alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div
-                  class="alert alert-dark alert-dismissible text-white"
-                  role="alert"
-                >
-                  <span class="text-sm"
-                    >A simple dark alert with
-                    <a href="javascript:;" class="alert-link text-white"
-                      >an example link</a
-                    >. Give it a click if you like.</span
-                  >
-                  <button
-                    type="button"
-                    class="btn-close text-lg py-3 opacity-10"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+                <div class="card-body p-3 pb-0">
+  <?php foreach ($notifications as $notification): ?>
+    <?php
+      // Format notification message
+      $formatted_message = "📅 New Booking Alert!\n\n";
+      $formatted_message .= "Guest: " . $notification['name'] . "\n";
+      $formatted_message .= "Room Type: " . ($notification['room_type'] ? $notification['room_type'] : 'N/A') . "\n";
+      $formatted_message .= "Stay Duration: " . $notification['message'] . "\n";
+      $formatted_message .= "Booking Time: " . date("F j, Y, g:i A", strtotime($notification['created_at'])) . "\n\n";
+      $formatted_message .= "A new reservation has been made. Please review and confirm availability.\n\n";
+      
+      // Determine alert type based on 'type' field (fallback to info)
+      $alertClass = match ($notification['type']) {
+          'booking' => 'primary',
+          'cancel' => 'danger',
+          'update' => 'warning',
+          default => 'info',
+      };
+    ?>
+    <div class="alert alert-dismissible text-dark" style="background-color: #e6f0f8; border-left: 5px solid #007bff;" role="alert">
+      <span class="text-sm"><?= nl2br(htmlspecialchars($formatted_message)) ?></span>
+      <button
+        type="button"
+        class="btn-close text-lg py-3 opacity-10"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <?php endforeach; ?>
+</div>
+
+
+           
+           
+           
+           
+           
             <div class="card mt-4">
-              <div class="card-header p-3">
-                <h5 class="mb-0">Notifications</h5>
-                <p class="text-sm mb-0">
-                  Notifications on this page use Toasts from Bootstrap. Read
-                  more details
-                  <a
-                    href="https://getbootstrap.com/docs/5.0/components/toasts/"
-                    target="
-          "
-                    >here</a
-                  >.
-                </p>
-              </div>
-              <div class="card-body p-3">
-                <div class="row">
-                  <div class="col-lg-3 col-sm-6 col-12">
-                    <button
-                      class="btn bg-gradient-success w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="successToast"
-                    >
-                      Success
-                    </button>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-12 mt-sm-0 mt-2">
-                    <button
-                      class="btn bg-gradient-info w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="infoToast"
-                    >
-                      Info
-                    </button>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-12 mt-lg-0 mt-2">
-                    <button
-                      class="btn bg-gradient-warning w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="warningToast"
-                    >
-                      Warning
-                    </button>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-12 mt-lg-0 mt-2">
-                    <button
-                      class="btn bg-gradient-danger w-100 mb-0 toast-btn"
-                      type="button"
-                      data-target="dangerToast"
-                    >
-                      Danger
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -658,7 +401,7 @@ if (!isset($_SESSION['admin_id'])) {
                   </script>
                   , made <i class="fa fa-heart"></i> by
                   <a
-                    href="https://www.creative-tim.com"
+                  
                     class="font-weight-bold"
                     target="_blank"
                     >Sapphire Hotel</a
@@ -671,7 +414,6 @@ if (!isset($_SESSION['admin_id'])) {
                 >
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com"
                       class="nav-link text-muted"
                       target="_blank"
                       >Sapphire Hotel</a
@@ -679,7 +421,6 @@ if (!isset($_SESSION['admin_id'])) {
                   </li>
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com/presentation"
                       class="nav-link text-muted"
                       target="_blank"
                       >About Us</a
@@ -687,7 +428,6 @@ if (!isset($_SESSION['admin_id'])) {
                   </li>
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com/blog"
                       class="nav-link text-muted"
                       target="_blank"
                       >Blog</a
@@ -695,7 +435,6 @@ if (!isset($_SESSION['admin_id'])) {
                   </li>
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com/license"
                       class="nav-link pe-0 text-muted"
                       target="_blank"
                       >License</a

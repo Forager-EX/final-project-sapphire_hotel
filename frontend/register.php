@@ -101,7 +101,7 @@
       <button type="submit">Register</button>
     </form>
     <div class="footer-link">
-      Already have an account? <a href="login.html">Login here</a>
+      Already have an account? <a href="login.php">Login here</a>
     </div>
   </div>
   <?php

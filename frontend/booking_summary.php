@@ -102,11 +102,12 @@ $total_amount = $room_price * $nights;
                     <strong>Number of Guests:</strong> <?= $booking['guest_num'] ?>
                   </li>
                   <li class="list-group-item">
-                    <strong>Price per Night:</strong> $<?= number_format($room_price, 2) ?>
+                    <strong>Price per Night:</strong> ₱<?= $booking['room_rate'] ?>
                   </li>
                   <li class="list-group-item">
                     <strong>Total Amount:</strong> 
-                    <span class="text-primary fw-bold">$<?= number_format($total_amount, 2) ?></span>
+                    <span class="text-primary fw-bold">₱<?= $booking['total_price'] ?>
+                  </li></span>
                   </li>
                   <li class="list-group-item">
                     <strong>Status:</strong> 

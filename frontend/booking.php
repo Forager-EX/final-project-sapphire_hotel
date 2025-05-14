@@ -18,37 +18,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['user_id'])) {
         die("User not logged in. Please log in to proceed with booking.");
     }
-    
+
     $user_id = intval($_SESSION['user_id']);
     $full_name = $conn->real_escape_string($_POST['full_name'] ?? '');
     $check_in = $conn->real_escape_string($_POST['check_in'] ?? '');
     $check_out = $conn->real_escape_string($_POST['check_out'] ?? '');
     $guest_num = intval($_POST['guest_num'] ?? 0);
     $room_type = $conn->real_escape_string($_POST['room_type'] ?? '');
+    $status = 'Confirmed';
 
     // Validation
     if (empty($check_in) || empty($check_out) || $guest_num <= 0 || empty($room_type)) {
-        die("All fields are required. Please fill in all fields to proceed.");
+        die("All fields are required.");
     }
 
     if ($check_in >= $check_out) {
         die("Check-out date must be after check-in date.");
     }
 
-    $status = 'Pending';
-    
-    // Debug SQL
-    $sql = "INSERT INTO booking (full_name, user_id, check_in, check_out, status, guest_num, room_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    // Calculate number of nights
+    $date1 = new DateTime($check_in);
+    $date2 = new DateTime($check_out);
+    $interval = $date1->diff($date2);
+    $numberOfNights = $interval->days;
+
+    // Get room rate
+    switch ($room_type) {
+        case 'standard':
+            $room_rate = 3000;
+            break;
+        case 'deluxe':
+            $room_rate = 4000;
+            break;
+        case 'exclusive':
+            $room_rate = 6000;
+            break;
+        default:
+            $room_rate = 0;
+    }
+
+    // Calculate total price
+    $total_price = $room_rate * $numberOfNights;
+
+    // Insert into database
+    $sql = "INSERT INTO booking (full_name, user_id, check_in, check_out, status, guest_num, room_type, room_rate, total_price)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
     $stmt = $conn->prepare($sql);
-    
-    if ($stmt === false) {
+
+    if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }
-    
-    if (!$stmt->bind_param("sisssis", $full_name, $user_id, $check_in, $check_out, $status, $guest_num, $room_type)) {
+
+    if (!$stmt->bind_param("sisssissi", $full_name, $user_id, $check_in, $check_out, $status, $guest_num, $room_type, $room_rate, $total_price)) {
         die("Bind failed: " . $stmt->error);
     }
-    
+
     if ($stmt->execute()) {
         $booking_id = $conn->insert_id;
         $_SESSION['last_booking'] = [
@@ -58,7 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'check_out' => $check_out,
             'guest_num' => $guest_num,
             'room_type' => $room_type,
+            'room_rate' => $room_rate,
+            'total_price' => $total_price,
             'status' => $status
+            
         ];
         header("Location: booking_summary.php");
         exit();
@@ -82,26 +110,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar__container">
-      <a href="index.php" id="navbar__logo">
-        <img src="img/sh icon.png" alt="Sapphire Hotel Logo" class="navbar__logo-img" />
-        Sapphire Hotel
-      </a>
-      <div class="navbar__toggle" id="mobile-menu">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    <!-- Navbar Section -->
+    <nav class="navbar">
+      <div class="navbar__container">
+        <a href="index.php" id="navbar__logo">
+          <img
+            src="img/sh icon.png"
+            alt="Sapphire Hotel Logo"
+            class="navbar__logo-img"
+          />
+          Sapphire Hotel
+        </a>
+        <div class="navbar__toggle" id="mobile-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <ul class="navbar__menu">
+          <li class="navbar__item">
+            <a href="index.php" class="navbar__links">Home</a>
+          </li>
+          <li class="navbar__item">
+            <a href="services.php" class="navbar__links">Services</a>
+          </li>
+          <li class="navbar__item">
+            <a href="rooms.php" class="navbar__links">Rooms</a>
+          </li>
+          <li class="navbar__item">
+            <a href="contact.php" class="navbar__links">Contact</a>
+          </li>
+          <li class="navbar__item">
+            <a href="profile.php" class="navbar__links">Profile</a>
+          </li>
+          <li class="navbar__btn">
+            <a href="logout.php" class="button">Log out</a>
+          </li>
+        </ul>
       </div>
-      <ul class="navbar__menu">
-        <li class="navbar__item"><a href="index.php" class="navbar__links">Home</a></li>
-        <li class="navbar__item"><a href="services.php" class="navbar__links">Services</a></li>
-        <li class="navbar__item"><a href="rooms.php" class="navbar__links">Rooms</a></li>
-        <li class="navbar__item"><a href="contact.php" class="navbar__links">Contact</a></li>
-        <li class="navbar__item"><a href="profile.php" class="navbar__links">Profile</a></li>
-        <li class="navbar__btn"><a href="login.php" class="button">Login/Sign-up</a></li>
-      </ul>
-    </div>
-  </nav>
+    </nav>
 
   <!-- Main Content -->
   <div class="main-content-wrapper">
@@ -132,10 +178,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </select>
             </div>
             <div class="col-lg-6">
-              <label for="numberOfGuests" class="form-label">Number of Guests:</label>
-              <input type="number" id="numberOfGuests" name="guest_num" class="form-control" min="1" max="5" required />
+           <label for="numberOfGuests" class="form-label">Number of Guests:</label>
+              <input type="number" id="numberOfGuests" name="guest_num" class="form-control" min="1" required />
+              <small id="guestLimitNote" class="form-text text-muted"></small>
             </div>
-          </div>
+           
+      
 
           <!-- Booking Summary -->
           <div class="booking-summary mt-4">
@@ -170,5 +218,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     flatpickr("#checkInDate", { dateFormat: "Y-m-d" });
     flatpickr("#checkOutDate", { dateFormat: "Y-m-d" });
   </script>
+  <script>document.addEventListener('DOMContentLoaded', function () {
+    const roomType = document.getElementById('roomType');
+    const guestInput = document.getElementById('numberOfGuests');
+    const guestLimitNote = document.getElementById('guestLimitNote');
+
+    const guestLimits = {
+      standard: 1,
+      deluxe: 2,
+      exclusive: 4
+    };
+
+    roomType.addEventListener('change', function () {
+      const selected = roomType.value;
+
+      if (guestLimits[selected]) {
+        guestInput.max = guestLimits[selected];
+        guestInput.value = Math.min(guestInput.value || 1, guestLimits[selected]);
+        guestLimitNote.textContent = `Maximum allowed guests for ${selected.charAt(0).toUpperCase() + selected.slice(1)} room: ${guestLimits[selected]}`;
+      } else {
+        guestInput.max = 5;
+        guestLimitNote.textContent = '';
+      }
+    });
+  });
+</script>
 </body>
 </html>

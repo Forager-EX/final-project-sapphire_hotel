@@ -5,7 +5,38 @@ if (!isset($_SESSION['admin_id'])) {
     header("Location: ../../admin_log_in.php");
     exit();
 }
-?>
+
+// Database connection
+$servername = "localhost"; // Database server
+$username = "root"; // Database username
+$password = ""; // Database password (default for XAMPP)
+$dbname = "sapphire_hotel"; // Your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch notifications from the database
+$sql = "SELECT * FROM notifications";
+$result = $conn->query($sql);
+
+$notifications = [];
+
+if ($result->num_rows > 0) {
+    // Fetch notifications into an array
+    while($row = $result->fetch_assoc()) {
+        $notifications[] = $row;
+    }
+} else {
+    $notifications = [];
+}
+
+$conn->close();
+?>>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +51,9 @@ if (!isset($_SESSION['admin_id'])) {
       sizes="76x76"
       href="../assets/img/apple-icon.png"
     />
-    <link rel="icon" type="image/png" href="../assets/img/logos/sh icon.png" />
-    <title>Sapphire Hotel</title>
+    <link rel="icon" type="image/png" href="../assets/img/logos/logo.jpg" />
+    <title>Sapphire Hotel Admin</title>
+    
     <!--     Fonts and icons     -->
     <link
       rel="stylesheet"
@@ -62,7 +94,6 @@ if (!isset($_SESSION['admin_id'])) {
         ></i>
         <a
           class="navbar-brand px-4 py-3 m-0"
-          href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
           target="_blank"
         >
           <img
@@ -90,13 +121,13 @@ if (!isset($_SESSION['admin_id'])) {
           <li class="nav-item">
             <a class="nav-link text-dark" href="../pages/tables.php">
               <i class="material-symbols-rounded opacity-5">table_view</i>
-              <span class="nav-link-text ms-1">Tables</span>
+              <span class="nav-link-text ms-1">User Profiles</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/billing.php">
+            <a class="nav-link text-dark" href="../pages/bookings.php">
               <i class="material-symbols-rounded opacity-5">receipt_long</i>
-              <span class="nav-link-text ms-1">Billing</span>
+              <span class="nav-link-text ms-1">Bookings</span>
             </a>
           </li>
           <li class="nav-item">
@@ -113,17 +144,21 @@ if (!isset($_SESSION['admin_id'])) {
             </h6>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/profile.php">
+            <a class="nav-link text-dark" href="profile.php">
               <i class="material-symbols-rounded opacity-5">person</i>
               <span class="nav-link-text ms-1">Profile</span>
             </a>
-          </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="../pages/sign-in.php">
-              <i class="material-symbols-rounded opacity-5">login</i>
-              <span class="nav-link-text ms-1">Sign In</span>
-            </a>
+          <a class="nav-link text-dark" href="logout.php">
+            <i class="material-symbols-rounded opacity-5">logout</i>
+            <span class="nav-link-text ms-1">Log out</span>
+          </a>
           </li>
+          </li>
+          
+
+        </li>
+
         </ul>
       </div>
     </aside>
@@ -195,127 +230,11 @@ if (!isset($_SESSION['admin_id'])) {
                 >
                   <i class="material-symbols-rounded">notifications</i>
                 </a>
-                <ul
-                  class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/team-2.jpg"
-                            class="avatar avatar-sm me-3"
-                          />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New message</span>
-                            from Laur
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            13 minutes ago
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/small-logos/logo-spotify.svg"
-                            class="avatar avatar-sm bg-gradient-dark me-3"
-                          />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New album</span> by
-                            Travis Scott
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            1 day
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;"
-                    >
-                      <div class="d-flex py-1">
-                        <div
-                          class="avatar avatar-sm bg-gradient-secondary me-3 my-auto"
-                        >
-                          <svg
-                            width="12px"
-                            height="12px"
-                            viewBox="0 0 43 36"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                          >
-                            <title>credit-card</title>
-                            <g
-                              stroke="none"
-                              stroke-width="1"
-                              fill="none"
-                              fill-rule="evenodd"
-                            >
-                              <g
-                                transform="translate(-2169.000000, -745.000000)"
-                                fill="#FFFFFF"
-                                fill-rule="nonzero"
-                              >
-                                <g
-                                  transform="translate(1716.000000, 291.000000)"
-                                >
-                                  <g
-                                    transform="translate(453.000000, 454.000000)"
-                                  >
-                                    <path
-                                      class="color-background"
-                                      d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                      opacity="0.593633743"
-                                    ></path>
-                                    <path
-                                      class="color-background"
-                                      d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
-                                    ></path>
-                                  </g>
-                                </g>
-                              </g>
-                            </g>
-                          </svg>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            Payment successfully completed
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            2 days
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
+                
               </li>
               <li class="nav-item d-flex align-items-center">
                 <a
-                  href="../pages/sign-in.php"
+                  href="../pages/profile.php"
                   class="nav-link text-body font-weight-bold px-0"
                 >
                   <i class="material-symbols-rounded">account_circle</i>
@@ -338,10 +257,22 @@ if (!isset($_SESSION['admin_id'])) {
             <div class="card">
               <div class="card-header p-2 ps-3">
                 <div class="d-flex justify-content-between">
-                  <div>
-                    <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                    <h4 class="mb-0">$53k</h4>
-                  </div>
+                 <div>
+                    <p class="text-sm mb-0 text-capitalize">Total Bookings</p>
+                    <script>
+                        fetch('total_booking.php')  // Assuming the PHP script is named 'get_total_bookings.php'
+                            .then(response => response.json())
+                            .then(data => {
+                                const bookings = data.total_bookings || 0;
+                                document.getElementById('bookingsBox').textContent = bookings.toLocaleString();  // Format number with commas
+                            })
+                            .catch(error => {
+                                document.getElementById('bookingsBox').textContent = 'Error loading bookings';
+                                console.error('Error fetching bookings:', error);
+                            });
+                    </script>
+                    <h4 class="mb-0" id="bookingsBox">0</h4>
+                </div> 
                   <div
                     class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg"
                   >
@@ -352,8 +283,28 @@ if (!isset($_SESSION['admin_id'])) {
               <hr class="dark horizontal my-0" />
               <div class="card-footer p-2 ps-3">
                 <p class="mb-0 text-sm">
-                  <span class="text-success font-weight-bolder">+55% </span>than
-                  last week
+                  <span class="text-success font-weight-bolder">
+              <div>
+                <p class="text-sm mb-0 text-capitalize" id="weeklyChange">0% than last week</p>
+                <script>
+              fetch('get_weekly_booking_change.php')
+                .then(response => response.json())
+                .then(data => {
+                  const percent = data.percent_change;
+                  const indicator = percent >= 0 ? '+' : '';
+                  const color = percent >= 0 ? 'green' : 'red';
+                  document.getElementById('weeklyChange').innerHTML =
+                    `<span style="color: ${color}; font-weight: bold;">${indicator}${percent}%</span> than last week`;
+                })
+                .catch(error => {
+                  document.getElementById('weeklyChange').textContent = 'Error loading data';
+                  console.error('Error:', error);
+                });
+            </script>
+
+
+
+              </div> </span>
                 </p>
               </div>
             </div>
@@ -362,11 +313,28 @@ if (!isset($_SESSION['admin_id'])) {
             <div class="card">
               <div class="card-header p-2 ps-3">
                 <div class="d-flex justify-content-between">
-                  <div>
-                    <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                    <h4 class="mb-0">2300</h4>
+                 <div>
+                    <p class="text-sm mb-0 text-capitalize">Number of Users</p>
+                    <div>
+                      <script>
+                        fetch('get_user_count.php')
+                          .then(response => response.json())
+                          .then(data => {
+                            const userCount = data.user_count || 0;
+                            document.getElementById('userCountBox').textContent = userCount.toLocaleString();
+                          })
+                          .catch(error => {
+                            document.getElementById('userCountBox').textContent = 'Error';
+                            console.error('Error fetching user count:', error);
+                          });
+                      </script>
+                      <h4 class="mb-0" id="userCountBox">0</h4>
+                    </div>
+
                   </div>
+  
                   <div
+                    class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg"
                     class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg"
                   >
                     <i class="material-symbols-rounded opacity-10">person</i>
@@ -375,9 +343,22 @@ if (!isset($_SESSION['admin_id'])) {
               </div>
               <hr class="dark horizontal my-0" />
               <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm">
-                  <span class="text-success font-weight-bolder">+3% </span>than
-                  last month
+                <p class="mb-0 text-sm" id="userWeeklyChange"></p>
+              <script>
+                fetch('get_weekly_user_change.php')
+                  .then(response => response.json())
+                  .then(data => {
+                    const percent = data.percent_change;
+                    const indicator = percent >= 0 ? '+' : '';
+                    const color = percent >= 0 ? 'green' : 'red';
+                    document.getElementById('userWeeklyChange').innerHTML = 
+                      `<span style="color: ${color}; font-weight: bold;">${indicator}${percent}%</span> than last week`;
+                  })
+                  .catch(error => {
+                    document.getElementById('userWeeklyChange').textContent = 'Error loading data';
+                    console.error('Error fetching user change:', error);
+                  });
+              </script> 
                 </p>
               </div>
             </div>
@@ -388,7 +369,32 @@ if (!isset($_SESSION['admin_id'])) {
                 <div class="d-flex justify-content-between">
                   <div>
                     <p class="text-sm mb-0 text-capitalize">Sales</p>
-                    <h4 class="mb-0">$103,430</h4>
+                    <script>
+                    fetch('get_total_sales.php')
+                  .then(response => response.json())
+                  .then(data => {
+                    const sales = data.total_sales || "0";
+                    document.getElementById('salesBox').textContent = `₱ ${sales}`;
+                  })
+                  .catch(error => {
+                    document.getElementById('salesBox').textContent = 'Error loading sales';
+                    console.error('Error fetching sales:', error);
+                  });
+                    </script>
+                    <script>
+                      fetch('get_total_sales.php')
+                        .then(response => response.json())
+                        .then(data => {
+                          const sales = data.total_sales || "0";
+                          document.getElementById('salesBox').textContent = `₱ ${sales}`;
+                        })
+                        .catch(error => {
+                          document.getElementById('salesBox').textContent = 'Error loading sales';
+                          console.error('Error fetching sales:', error);
+                        });
+
+                  </script>
+                    <h4 class="mb-0" id="salesBox">₱ 0</h4>
                   </div>
                   <div
                     class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg"
@@ -399,10 +405,34 @@ if (!isset($_SESSION['admin_id'])) {
               </div>
               <hr class="dark horizontal my-0" />
               <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm">
-                  <span class="text-success font-weight-bolder">+5% </span>than
-                  yesterday
-                </p>
+                <p class="text-sm mb-0 text-capitalize">
+                <span id="monthlySalesChange" style="font-weight: bold; color: gray;">0%</span> than last month
+                </p><script>
+                fetch('get_monthly_sales_change.php')
+                  .then(response => {
+                    if (!response.ok) throw new Error("Network response error");
+                    return response.json();
+                  })
+                  .then(data => {
+                    if (data.error) throw new Error(data.error);
+
+                    const percent = data.percent_change;
+                    const indicator = percent >= 0 ? '+' : '';
+                    const color = percent >= 0 ? 'green' : 'red';
+
+                    const span = document.getElementById('monthlySalesChange');
+                    span.textContent = `${indicator}${percent}%`;
+                    span.style.color = color;
+                  })
+                  .catch(error => {
+                    const span = document.getElementById('monthlySalesChange');
+                    span.textContent = 'Error';
+                    span.style.color = 'red';
+                    console.error('Fetch error:', error);
+                  });
+              </script>
+
+              </div>
               </div>
             </div>
           </div>
@@ -460,106 +490,54 @@ if (!isset($_SESSION['admin_id'])) {
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 mt-4 mb-4">
-            <div class="card h-100">
-              <div class="card-header pb-0">
-                <h6>Orders overview</h6>
-                <p class="text-sm">
-                  <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-                  <span class="font-weight-bold">24%</span> this month
-                </p>
-              </div>
-              <div class="card-body p-3">
-                <div class="timeline timeline-one-side">
-                  <div class="timeline-block mb-3">
-                    <span class="timeline-step">
-                      <i
-                        class="material-symbols-rounded text-success text-gradient"
-                        >notifications</i
-                      >
-                    </span>
-                    <div class="timeline-content">
-                      <h6 class="text-dark text-sm font-weight-bold mb-0">
-                        $2400, Design changes
-                      </h6>
-                      <p
-                        class="text-secondary font-weight-bold text-xs mt-1 mb-0"
-                      >
-                        22 DEC 7:20 PM
-                      </p>
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card h-75">
+            <div class="card-header pb-0">
+              <h6>Notifications</h6>
+              <p class="text-sm">
+                <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
+                <span class="font-weight-bold"></span> 
+              </p>
+            </div>
+            <!-- Set fixed height and enable scroll here -->
+            <div class="card-body p-3" style="max-height: 400px; overflow-y: auto;">
+              <div class="timeline timeline-one-side">
+                <?php foreach ($notifications as $notification): ?>
+                  <?php
+                      $formatted_message = "📅 New Booking Alert!\n\n";
+                      $formatted_message .= "Guest: " . $notification['name'] . "\n";
+                      $formatted_message .= "A new reservation has been made. Please review and confirm availability.\n\n";
+
+                      $alertClass = match ($notification['type']) {
+                          'booking' => '',
+                          'cancel' => 'danger',
+                          'update' => 'warning',
+                          default => 'info',
+                      };
+                  ?>
+                  <div class="timeline-item">
+                    <div class="timeline-time">
+                      <span class="badge bg-<?php echo $alertClass; ?>">
+                        <?php echo ucfirst($notification['type']); ?>
+                      </span>
                     </div>
-                  </div>
-                  <div class="timeline-block mb-3">
-                    <span class="timeline-step">
-                      <i
-                        class="material-symbols-rounded text-danger text-gradient"
-                        >code</i
-                      >
-                    </span>
-                    <div class="timeline-content">
-                      <h6 class="text-dark text-sm font-weight-bold mb-0">
-                        New order #1832412
-                      </h6>
-                      <p
-                        class="text-secondary font-weight-bold text-xs mt-1 mb-0"
-                      >
-                        21 DEC 11 PM
-                      </p>
+                    <div class="timeline-content" style="background-color: #e6f2ff; border: 1px solid #b3d8ff; border-radius: 6px; padding: 10px; margin-top: 5px;">
+                      <h5 class="text-sm text-dark mb-0" style="font-size: 0.875rem;"><?php echo nl2br($formatted_message); ?></h5>
                     </div>
+
                   </div>
-                </div>
+                <?php endforeach; ?>
               </div>
             </div>
           </div>
         </div>
-        <div class="row mb-4">
-          <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-            <div class="card">
-              
-                <div class="row">
-                  <div class="col-lg-6 col-5 my-auto text-end">
-                    <div class="dropdown float-lg-end pe-4">
-                      <a
-                        class="cursor-pointer"
-                        id="dropdownTable"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i class="fa fa-ellipsis-v text-secondary"></i>
-                      </a>
-                      <ul
-                        class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                        aria-labelledby="dropdownTable"
-                      >
-                        <li>
-                          <a
-                            class="dropdown-item border-radius-md"
-                            href="javascript:;"
-                            >Action</a
-                          >
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item border-radius-md"
-                            href="javascript:;"
-                            >Another action</a
-                          >
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item border-radius-md"
-                            href="javascript:;"
-                            >Something else here</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+
             </div>
           </div>
         </div>
+      
+
         <footer class="footer py-4">
           <div class="container-fluid">
             <div class="row align-items-center justify-content-lg-between">
@@ -573,7 +551,6 @@ if (!isset($_SESSION['admin_id'])) {
                   </script>
                   , made <i class="fa fa-heart"></i> by
                   <a
-                    href="https://www.creative-tim.com"
                     class="font-weight-bold"
                     target="_blank"
                     >Sapphire Hotel</a>
@@ -585,7 +562,6 @@ if (!isset($_SESSION['admin_id'])) {
                 >
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com"
                       class="nav-link text-muted"
                       target="_blank"
                       >Sapphire Hotel</a
@@ -593,7 +569,6 @@ if (!isset($_SESSION['admin_id'])) {
                   </li>
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com/presentation"
                       class="nav-link text-muted"
                       target="_blank"
                       >About Us</a
@@ -601,7 +576,6 @@ if (!isset($_SESSION['admin_id'])) {
                   </li>
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com/blog"
                       class="nav-link text-muted"
                       target="_blank"
                       >Blog</a
@@ -609,7 +583,6 @@ if (!isset($_SESSION['admin_id'])) {
                   </li>
                   <li class="nav-item">
                     <a
-                      href="https://www.creative-tim.com/license"
                       class="nav-link pe-0 text-muted"
                       target="_blank"
                       >License</a

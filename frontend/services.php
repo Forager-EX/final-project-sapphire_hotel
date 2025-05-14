@@ -52,34 +52,20 @@ include("../session.php");
             <a href="profile.php" class="navbar__links">Profile</a>
           </li>
           <li class="navbar__btn">
-            <a href="login.php" class="button">Login/Sign-up</a>
+            <a href="logout.php" class="button">Log out</a>
           </li>
         </ul>
       </div>
     </nav>
 
     
-    <!-- Hero Banner -->
-<section class="main" style="background-image: url('img/ser.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 50vh; display: flex; align-items: center; justify-content: center; color: white;">
-
-  <div class="container">
-    <div class="hero-content">
-      <h1>Our Exceptional Services</h1>
-      <p>
-        Experience unparalleled comfort and luxury with Sapphire Hotel's
-        premium amenities.
-      </p>
-    </div>
-  </div>
-</section>
-
 
     <!-- Services Grid -->
     <section class="services-grid">
       <div class="container">
         <div class="section-intro">
           <h2>Discover Our Offerings</h2>
-          <p>Every detail is designed for your comfort and satisfaction</p>
+          <p>Every Detail is Designed for your Comfort and Satisfaction</p>
         </div>
 
         <div class="services-container">

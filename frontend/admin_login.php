@@ -148,8 +148,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <button type="submit">Login</button>
     </form>
     <div class="footer-link">
-      Don't have an account? <a href="register.html">Register here</a>
+    Don't have an account? <a href="material-dashboard-master/pages/register_admin.php">Register here</a>
     </div>
+
   </div>
   
 </body>
